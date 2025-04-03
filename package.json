@@ -1,0 +1,18 @@
+{
+  "name": "mingamatch",
+  "version": "1.0.0",
+  "description": "Proyecto MingaMatch",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NataliaC-cmk/MingaMatch.git"
+  },
+  "author": "Tu Nombre",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
