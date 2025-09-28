@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacantes | Minga Teachers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="/i18n.js" defer></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <header class="bg-white shadow-md sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center gap-3">
+                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/>
+            </div>
+            <nav class="flex items-center gap-6">
+                <a href="/dashboard-teacher.html" class="text-sm font-medium text-slate-600 hover:text-blue-600">Dashboard</a>
+                <a href="/resources.html" class="text-sm font-medium text-slate-600 hover:text-blue-600">Recursos</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button id="logout" class="text-sm font-medium text-red-600 hover:text-red-800">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Vacantes Disponibles</h1>
+        <p class="text-gray-600 mb-8">Oportunidades que encajan con tu perfil y experiencia. Completa tu perfil para ver más.</p>
+        
+        <div id="jobList" class="space-y-6">
+            </div>
+
+    </main>
+
+    <script>
+        const jobListContainer = document.getElementById('jobList');
+        
+        // Simulación de datos de vacantes con un ID de trabajo
+        const simulatedAvailableJobs = [
+            { id: 'jobA', title: 'Profesor de Matemáticas - Secundaria', school: 'Escuela Bilingüe de Texas', location: 'Austin, TX', description: 'Buscamos docentes con mínimo 2 años de experiencia y título en Matemáticas.', applied: false },
+            { id: 'jobB', title: 'Maestro de Primaria (Bilingüe)', school: 'Academia de Miami', location: 'Miami, FL', description: 'Requisito principal: Nivel C1 de Inglés y BA en Educación Primaria.', applied: true },
+            { id: 'jobC', title: 'Tutor de Ciencias (High School)', school: 'NY Charter School', location: 'Bronx, NY', description: 'Debe tener experiencia en Biología y Química. J-1 Visa sponsor disponible.', applied: false }
+        ];
+
+        function renderAvailableJobs() {
+            jobListContainer.innerHTML = simulatedAvailableJobs.map(job => `
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <h3 class="font-bold text-xl text-blue-600">${job.title}</h3>
+                        <p class="text-sm text-gray-700 mt-1">${job.school} - ${job.location}</p>
+                        <p class="text-sm text-gray-500 mt-2 max-w-lg">${job.description}</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        ${job.applied ? `
+                            <button class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg cursor-not-allowed" disabled>Ya Aplicaste</button>
+                        ` : `
+                            <button class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" onclick="handleApply('${job.id}', this)">Aplicar</button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Lógica para Aplicar (Funcionalidad Requerida)
+        window.handleApply = (jobId, buttonElement) => {
+            const confirmed = confirm(`¿Estás seguro de que quieres aplicar a la vacante ${jobId}?`);
+            if (!confirmed) return;
+            
+            // SIMULACIÓN DE LLAMADA API
+            // fetch('/api/applications/apply', { method: 'POST', body: JSON.stringify({ jobId }) });
+
+            alert(`Aplicación enviada con éxito para ${jobId}.`);
+            
+            // Actualizar la UI
+            buttonElement.disabled = true;
+            buttonElement.textContent = 'Ya Aplicaste';
+            buttonElement.className = 'bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg cursor-not-allowed';
+
+            // En un entorno real, actualizarías el estado de 'applied' en la lista original y llamarías a renderAvailableJobs()
+        };
+
+        document.getElementById('logout').addEventListener('click', () => { 
+            localStorage.clear(); 
+            location.href = '/login.html'; 
+        });
+
+        renderAvailableJobs();
+    </script>
+
+</body>
+</html>
+

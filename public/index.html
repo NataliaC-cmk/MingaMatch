@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minga Match - Oportunidades para Docentes</title>
+    
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="/i18n.js" defer></script> 
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+        .glass-header {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .animated-gradient {
+            background-image: linear-gradient(to right, #3b82f6, #60a5fa, #93c5fd);
+            background-size: 200% auto;
+            transition: background-position 0.5s ease;
+        }
+        .animated-gradient:hover {
+            background-position: right center;
+        }
+        .benefit-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="glass-header shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-12 w-auto"/> 
+                <span class="font-bold text-2xl text-slate-900">Minga Match</span> 
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="https://www.mingahousefoundation.org/teach-usa.html" target="_blank" class="font-semibold text-slate-600 hover:text-blue-600 transition" data-i18n="navMoreInfo"></a>
+            </div>
+            <div class="flex items-center gap-4">
+                <select id="lang-selector" class="text-sm cursor-pointer bg-transparent text-slate-600 font-semibold border-0 focus:outline-none focus:ring-0">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="/login.html" class="hidden sm:block font-bold text-slate-600 hover:text-blue-600 transition" data-i18n="loginButton"></a>
+                <a href="/register-teacher.html" class="animated-gradient text-white font-bold py-2 px-5 rounded-lg transition duration-300 shadow-lg shadow-blue-500/30" data-i18n="registerButton"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-20 px-6">
+            <div class="text-center md:text-left" data-aos="fade-right">
+                <h1 class="text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight" data-i18n="heroTitle"></h1>
+                <p class="mt-6 max-w-xl mx-auto md:mx-0 text-lg text-slate-600" data-i18n="heroSubtitle"></p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="/register-teacher.html" class="animated-gradient text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-xl shadow-blue-500/30" data-i18n="ctaTeacher"></a>
+                    <a href="/register-school.html" class="bg-white hover:bg-slate-100 text-slate-700 font-bold py-3 px-8 rounded-lg text-lg transition duration-300 border-2 border-slate-300" data-i18n="ctaSchool"></a>
+                </div>
+            </div>
+            <div class="mt-10 md:mt-0" data-aos="fade-left" data-aos-delay="200">
+                <img src="/hero-teacher.jpg" alt="Profesora latina sonriendo en un aula con estudiantes" class="rounded-3xl shadow-2xl object-cover w-full h-full">
+            </div>
+        </section>
+
+        <section class="px-6 py-8" data-aos="fade-up">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 text-white rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-center text-center gap-4 shadow-2xl">
+                <p class="text-2xl sm:text-3xl font-semibold" data-i18n="aiBannerText"></p>
+            </div>
+        </section>
+
+        <section id="benefits" class="py-24 sm:py-32 px-6">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-slate-900" data-i18n="benefitsTitle"></h2>
+            </div>
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="font-bold text-lg" data-i18n="benefit1Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit1Text"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-bold text-lg" data-i18n="benefit2Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit2Text"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="font-bold text-lg" data-i18n="benefit3Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit3Text"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="font-bold text-lg" data-i18n="benefit4Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit4Text"></p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-bold text-lg" data-i18n="benefit5Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit5Text"></p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="font-bold text-lg" data-i18n="benefit6Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit6Text"></p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="font-bold text-lg" data-i18n="benefit7Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit7Text"></p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-bold text-lg" data-i18n="benefit8Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit8Text"></p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg benefit-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="font-bold text-lg" data-i18n="benefit9Title"></h3>
+                    <p class="mt-2 text-slate-600" data-i18n="benefit9Text"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-6 text-center">
+            <p class="mt-4 text-sm text-slate-500">&copy; 2025 Minga Match. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestión de Entrevistas | Minga Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<header class="bg-slate-800 text-white shadow-md sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
+                <span class="font-bold text-xl">Minga Match</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/dashboard-school.html" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300">
+                    Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900">Gestión de Entrevistas</h1>
+        <p class="text-slate-600 mt-1">Aquí puedes ver el estado y los detalles de todas las entrevistas que has agendado.</p>
+    </div>
+
+    <div id="filters" class="mb-6 flex gap-4">
+        <select id="statusFilter" class="p-2 border border-slate-300 rounded-md text-sm">
+            <option value="all">Mostrar todos los estados</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Confirmada">Confirmada</option>
+            <option value="Realizada">Realizada</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+    </div>
+
+    <div id="interviewsContainer" class="space-y-6">
+        <p class="text-slate-500">Cargando entrevistas...</p>
+    </div>
+    
+    <p id="noResults" class="text-slate-500 hidden mt-6">No hay entrevistas que coincidan con los filtros seleccionados.</p>
+</main>
+
+<script>
+    // SIMULACIÓN DE DATOS DE ENTREVISTAS
+    const interviewData = [
+        { id: 1, teacherName: 'María Pérez', jobTitle: 'Profesor de Matemáticas', date: '2025-10-05T10:00:00', link: 'https://zoom.us/j/123456', status: 'Confirmada', notes: 'Confirmó su asistencia.' },
+        { id: 2, teacherName: 'Juan Valdez', jobTitle: 'Maestro de Primaria', date: '2025-10-10T14:30:00', link: 'https://meet.google.com/abcde', status: 'Pendiente', notes: 'Enviada propuesta inicial.' },
+        { id: 3, teacherName: 'Elena Gutiérrez', jobTitle: 'Tutor de Ciencias', date: '2025-09-20T11:00:00', link: '#', status: 'Realizada', notes: 'Muy buena candidata. Pendiente feedback.' },
+        { id: 4, teacherName: 'Carlos García', jobTitle: 'Profesor de Historia', date: '2025-09-15T09:00:00', link: '#', status: 'Cancelada', notes: 'El candidato canceló.' }
+    ];
+
+    const container = document.getElementById('interviewsContainer');
+    const filter = document.getElementById('statusFilter');
+
+    function getStatusClass(status) {
+        switch (status) {
+            case 'Confirmada': return 'bg-green-100 text-green-700 border-green-300';
+            case 'Realizada': return 'bg-blue-100 text-blue-700 border-blue-300';
+            case 'Cancelada': return 'bg-red-100 text-red-700 border-red-300';
+            case 'Pendiente': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
+            default: return 'bg-slate-100 text-slate-700 border-slate-300';
+        }
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit', 
+            minute: '2-digit'
+        });
+    }
+
+    function renderInterviews(data) {
+        const selectedStatus = filter.value;
+        const filteredData = data.filter(item => selectedStatus === 'all' || item.status === selectedStatus);
+
+        if (filteredData.length === 0) {
+            container.innerHTML = '';
+            document.getElementById('noResults').classList.remove('hidden');
+            return;
+        }
+        document.getElementById('noResults').classList.add('hidden');
+
+        container.innerHTML = filteredData.map(item => `
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">${item.teacherName}</h3>
+                        <p class="text-sm text-slate-600">${item.jobTitle}</p>
+                    </div>
+                    <span class="text-xs font-semibold px-3 py-1 rounded-full border ${getStatusClass(item.status)}">
+                        ${item.status}
+                    </span>
+                </div>
+                
+                <div class="space-y-1 text-sm text-slate-700 mt-4 pt-3 border-t border-slate-100">
+                    <p><strong>Fecha y Hora:</strong> ${formatDate(item.date)}</p>
+                    <p><strong>Enlace:</strong> 
+                        ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" class="text-blue-600 hover:underline">Acceder a la reunión</a>` : 'No aplica o no disponible'}
+                    </p>
+                    <p><strong>Notas:</strong> ${item.notes}</p>
+                </div>
+
+                <div class="mt-4 flex gap-2 justify-end">
+                    <button class="bg-slate-200 text-slate-700 font-bold py-2 px-3 text-sm rounded-lg hover:bg-slate-300 transition" onclick="alert('Funcionalidad de Edición para ID: ${item.id}')">Editar</button>
+                    ${item.status !== 'Cancelada' ? `<button class="bg-red-500 text-white font-bold py-2 px-3 text-sm rounded-lg hover:bg-red-600 transition" onclick="alert('Funcionalidad de Cancelación para ID: ${item.id}')">Cancelar</button>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // --- Inicialización y Eventos ---
+    filter.addEventListener('change', () => renderInterviews(interviewData));
+    
+    // Simulación de carga de datos inicial
+    document.addEventListener('DOMContentLoaded', () => {
+        renderInterviews(interviewData);
+    });
+
+</script>
+</body>
+</html>

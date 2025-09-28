@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestionar Vacante | Minga Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+<header class="bg-slate-800 text-white shadow-md sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
+                <span class="font-bold text-xl">Minga Match</span>
+            </div>
+            <div>
+                <a href="/dashboard-school.html" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <form id="jobForm" class="bg-white shadow-lg rounded-xl p-8 space-y-6">
+        <div>
+            <h1 id="form-title" class="text-3xl font-bold text-slate-900">Publicar una Nueva Vacante</h1>
+            <p class="text-slate-500 mt-1">Completa los detalles para encontrar al candidato ideal.</p>
+        </div>
+
+        <!-- Job Details -->
+        <div class="border-t border-slate-200 pt-6">
+            <h2 class="text-lg font-semibold text-slate-800">Detalles del Puesto</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-slate-700">Título de la Vacante</label>
+                    <input type="text" id="title" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                 <div>
+                    <label for="location-city" class="block text-sm font-medium text-slate-700">Ciudad</label>
+                    <input type="text" id="location-city" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="location-state" class="block text-sm font-medium text-slate-700">Estado (USA)</label>
+                    <input type="text" id="location-state" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="zone" class="block text-sm font-medium text-slate-700">Zona</label>
+                    <select id="zone" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="Urbana">Urbana</option>
+                        <option value="Rural">Rural</option>
+                        <option value="Suburbana">Suburbana</option>
+                    </select>
+                </div>
+            </div>
+             <div class="mt-6">
+                <label for="description" class="block text-sm font-medium text-slate-700">Descripción del Puesto</label>
+                <textarea id="description" rows="4" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="border-t border-slate-200 pt-6">
+            <h2 class="text-lg font-semibold text-slate-800">Requisitos del Candidato</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div>
+                    <label for="req-specialty" class="block text-sm font-medium text-slate-700">Especialidad Principal</label>
+                    <input type="text" id="req-specialty" required placeholder="Ej: Matemáticas" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                 <div>
+                    <label for="req-level" class="block text-sm font-medium text-slate-700">Nivel Educativo</label>
+                    <input type="text" id="req-level" required placeholder="Ej: Secundaria" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                 <div>
+                    <label for="req-english" class="block text-sm font-medium text-slate-700">Nivel de Inglés Mínimo</label>
+                    <select id="req-english" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C1">C1</option>
+                        <option value="C2">C2</option>
+                        <option value="Nativo">Nativo</option>
+                    </select>
+                </div>
+                 <div>
+                    <label for="req-experience" class="block text-sm font-medium text-slate-700">Años de Experiencia Mínimos</label>
+                    <input type="number" id="req-experience" min="0" value="0" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Salary -->
+        <div class="border-t border-slate-200 pt-6">
+             <h2 class="text-lg font-semibold text-slate-800">Salario (Opcional)</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                 <div>
+                    <label for="salary-min" class="block text-sm font-medium text-slate-700">Salario Mínimo Anual (USD)</label>
+                    <input type="number" id="salary-min" min="0" placeholder="Ej: 40000" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                 <div>
+                    <label for="salary-max" class="block text-sm font-medium text-slate-700">Salario Máximo Anual (USD)</label>
+                    <input type="number" id="salary-max" min="0" placeholder="Ej: 60000" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+             </div>
+        </div>
+
+        <div class="border-t border-slate-200 pt-6 flex justify-end gap-3">
+            <a href="/dashboard-school.html" class="bg-white text-slate-700 border border-slate-300 font-bold py-2 px-4 rounded-lg hover:bg-slate-50 transition">Cancelar</a>
+            <button type="submit" id="submit-button" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Guardar Vacante</button>
+        </div>
+    </form>
+</main>
+
+<script>
+    // --- Guardia de Sesión y Helpers ---
+    (function guard() {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (!token || role !== 'school') {
+            alert('Inicia sesión como escuela para acceder.');
+            location.href = '/login.html';
+        }
+    })();
+    const authHeader = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' });
+
+    // --- Estado y Elementos del DOM ---
+    const form = document.getElementById('jobForm');
+    const formTitle = document.getElementById('form-title');
+    const submitButton = document.getElementById('submit-button');
+    const params = new URLSearchParams(window.location.search);
+    const jobId = params.get('id');
+    const isEditMode = Boolean(jobId);
+
+    // --- Lógica de Carga y Guardado ---
+    async function init() {
+        if (isEditMode) {
+            formTitle.textContent = 'Editar Vacante';
+            submitButton.textContent = 'Guardar Cambios';
+            await loadJobData();
+        }
+
+        form.addEventListener('submit', handleFormSubmit);
+    }
+
+    async function loadJobData() {
+        try {
+            const res = await fetch(`/api/jobs/${jobId}`, { headers: authHeader() });
+            if (!res.ok) throw new Error('No se pudo cargar la vacante');
+            const job = await res.json();
+            populateForm(job);
+        } catch (error) {
+            console.error(error);
+            alert('Error al cargar los datos de la vacante.');
+        }
+    }
+    
+    function populateForm(job) {
+        document.getElementById('title').value = job.title || '';
+        document.getElementById('location-city').value = job.location?.city || '';
+        document.getElementById('location-state').value = job.location?.state || '';
+        document.getElementById('zone').value = job.zone || 'Urbana';
+        document.getElementById('description').value = job.description || '';
+        document.getElementById('req-specialty').value = job.requirements?.specialty || '';
+        document.getElementById('req-level').value = job.requirements?.level || '';
+        document.getElementById('req-english').value = job.requirements?.englishLevel || 'B2';
+        document.getElementById('req-experience').value = job.requirements?.yearsOfExperience || 0;
+        document.getElementById('salary-min').value = job.salary?.min || '';
+        document.getElementById('salary-max').value = job.salary?.max || '';
+    }
+
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+        submitButton.disabled = true;
+        submitButton.textContent = 'Guardando...';
+
+        // Recolectar datos en la estructura correcta
+        const payload = {
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            zone: document.getElementById('zone').value,
+            location: {
+                city: document.getElementById('location-city').value,
+                state: document.getElementById('location-state').value,
+            },
+            requirements: {
+                specialty: document.getElementById('req-specialty').value,
+                level: document.getElementById('req-level').value,
+                englishLevel: document.getElementById('req-english').value,
+                yearsOfExperience: parseInt(document.getElementById('req-experience').value, 10),
+            },
+            salary: {
+                min: parseInt(document.getElementById('salary-min').value, 10) || undefined,
+                max: parseInt(document.getElementById('salary-max').value, 10) || undefined,
+            }
+        };
+
+        const url = isEditMode ? `/api/jobs/${jobId}` : '/api/jobs';
+        const method = isEditMode ? 'PATCH' : 'POST';
+
+        try {
+            const res = await fetch(url, {
+                method: method,
+                headers: authHeader(),
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+                 const err = await res.json();
+                 throw new Error(err.message || 'Error al guardar la vacante');
+            }
+            alert(`Vacante ${isEditMode ? 'actualizada' : 'creada'} con éxito.`);
+            window.location.href = '/dashboard-school.html';
+
+        } catch (error) {
+            console.error(error);
+            alert(`Error: ${error.message}`);
+            submitButton.disabled = false;
+            submitButton.textContent = isEditMode ? 'Guardar Cambios' : 'Guardar Vacante';
+        }
+    }
+    
+    // --- Iniciar la página ---
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
+

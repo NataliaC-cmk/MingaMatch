@@ -1,18 +1,24 @@
 {
-  "name": "mingamatch",
+  "name": "minga-match",
   "version": "1.0.0",
-  "description": "Proyecto MingaMatch",
-  "main": "index.js",
+  "description": "Minga Match App MVP",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "cross-env MONGODB_URI=\"mongodb+srv://minga_user:MingaMatch@cluster0.ts67dmm.mongodb.net/MingaMatch?retryWrites=true&w=majority&appName=Cluster0\" node server.js",
+    "dev": "cross-env MONGODB_URI=\"mongodb+srv://minga_user:MingaMatch@cluster0.ts67dmm.mongodb.net/MingaMatch?retryWrites=true&w=majority&appName=Cluster0\" nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NataliaC-cmk/MingaMatch.git"
-  },
-  "author": "Tu Nombre",
-  "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

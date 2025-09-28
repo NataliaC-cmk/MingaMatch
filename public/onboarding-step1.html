@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="step1Title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="/i18n.js" defer></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-100">
+
+<header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <div class="flex items-center gap-3"><img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/></div>
+        <a href="/dashboard-teacher.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600" data-i18n="backToDashboard">Volver al Dashboard</a>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl">
+        <h1 class="text-3xl font-bold text-slate-900 mb-6" data-i18n="agreementTitle"></h1>
+        
+        <div class="p-4 border border-slate-300 rounded-lg bg-slate-50 h-96 overflow-y-scroll text-sm text-slate-700">
+             <div data-i18n="agreementText"></div>
+        </div>
+        
+        <div class="mt-6">
+            <label for="agreement-checkbox" class="flex items-start cursor-pointer">
+                <input id="agreement-checkbox" type="checkbox" class="h-5 w-5 mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                <p class="ml-3 font-medium text-slate-700" data-i18n="agreementCheckboxLabel"></p>
+            </label>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button id="save-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition hover:bg-blue-700 disabled:bg-slate-400 w-full sm:w-auto" disabled>
+                <span data-i18n="saveStepButton"></span>
+            </button>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('i18nextInitialized', () => {
+        const token = localStorage.getItem('token');
+        if (!token) { return location.href = '/login.html'; }
+        const authHeader = () => ({ 'Authorization': `Bearer ${token}` });
+
+        const checkbox = document.getElementById('agreement-checkbox');
+        const saveBtn = document.getElementById('save-btn');
+
+        // Habilitar/Deshabilitar botón basado en el checkbox
+        checkbox.addEventListener('input', () => { saveBtn.disabled = !checkbox.checked; });
+
+        // Lógica para guardar el progreso
+        saveBtn.addEventListener('click', async () => {
+            if (!checkbox.checked) return;
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando...';
+
+            try {
+                // Marcar el paso 'agreementAccepted' como completado
+                const res = await fetch('/api/teachers/profile/onboarding-status', {
+                    method: 'PUT',
+                    headers: { ...authHeader(), 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ step: 'agreementAccepted' })
+                });
+                if (!res.ok) throw new Error('No se pudo guardar el progreso');
+                window.location.href = '/dashboard-teacher.html';
+            } catch (error) {
+                alert('Hubo un error al guardar. Inténtalo de nuevo.');
+                saveBtn.disabled = false;
+                saveBtn.textContent = i18next.t('saveStepButton');
+            }
+        });
+
+        // Cargar el estado actual del checkbox desde el perfil del usuario
+        (async function loadStatus() {
+            try {
+                const res = await fetch('/api/teachers/my-profile', { headers: authHeader() });
+                if (!res.ok) throw new Error('Error al cargar perfil');
+                const user = await res.json();
+                
+                if (user.profile?.onboardingStatus?.agreementAccepted) {
+                    checkbox.checked = true;
+                    saveBtn.disabled = false;
+                }
+            } catch (error) { 
+                console.error("Error cargando el estado del acuerdo:", error); 
+            }
+        })();
+        
+        // Ejecutar la traducción
+        if (window.updateContent) {
+            window.updateContent();
+        }
+    });
+</script>
+
+</body>
+</html>

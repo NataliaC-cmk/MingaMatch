@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="step4Title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="/i18n.js" defer></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
+    </style>
+</head>
+<body class="bg-slate-100">
+
+<header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <div class="flex items-center gap-3"><img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/></div>
+        <a href="/dashboard-teacher.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600" data-i18n="backToDashboard">Volver al Dashboard</a>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-12 px-4">
+    <form id="profile-form" class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-slate-900" data-i18n="step4Title"></h1>
+            <p class="mt-4 text-slate-600 max-w-2xl mx-auto" data-i18n="step4Desc"></p>
+        </div>
+
+        <hr class="my-8">
+        
+        <h2 class="text-xl font-bold text-slate-800 mb-6" data-i18n="personalInfoSection"></h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="fullName" class="block text-sm font-medium text-slate-700" data-i18n="fullNameLabel"></label>
+                <input type="text" id="fullName" name="fullName" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="currentCountry" class="block text-sm font-medium text-slate-700" data-i18n="currentCountryLabel"></label>
+                <input type="text" id="currentCountry" name="currentCountry" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="phone" class="block text-sm font-medium text-slate-700" data-i18n="phoneLabel"></label>
+                <input type="tel" id="phone" name="phone" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="englishLevel" class="block text-sm font-medium text-slate-700" data-i18n="englishLevelLabel"></label>
+                <input type="text" id="englishLevel" name="englishLevel" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="yearsExp" class="block text-sm font-medium text-slate-700" data-i18n="yearsExpLabel"></label>
+                <input type="number" id="yearsExp" name="yearsExp" min="2" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="usaSSN" class="block text-sm font-medium text-slate-700" data-i18n="usaSSNLabel"></label>
+                <input type="text" id="usaSSN" name="usaSSN" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+        </div>
+
+        <hr class="my-8">
+
+        <h2 class="text-xl font-bold text-slate-800 mb-6">Educación</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <label for="uniName" class="block text-sm font-medium text-slate-700" data-i18n="uniNameLabel"></label>
+                <input type="text" id="uniName" name="uniName" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="degreeType" class="block text-sm font-medium text-slate-700" data-i18n="degreeTypeLabel"></label>
+                <input type="text" id="degreeType" name="degreeType" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="fieldOfStudy" class="block text-sm font-medium text-slate-700" data-i18n="fieldOfStudyLabel"></label>
+                <input type="text" id="fieldOfStudy" name="fieldOfStudy" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+        </div>
+        
+        <hr class="my-8">
+
+        <h2 class="text-xl font-bold text-slate-800 mb-6" data-i18n="professionalInfoSection"></h2>
+
+        <div class="space-y-6">
+            <div>
+                <label for="currentPosition" class="block text-sm font-medium text-slate-700" data-i18n="currentPositionLabel"></label>
+                <input type="text" id="currentPosition" name="currentPosition" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="currentTasks" class="block text-sm font-medium text-slate-700" data-i18n="currentTasksLabel"></label>
+                <textarea id="currentTasks" name="currentTasks" rows="3" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required></textarea>
+            </div>
+            <div>
+                <label for="totalMonthsCurrentJob" class="block text-sm font-medium text-slate-700" data-i18n="totalMonthsCurrentJobLabel"></label>
+                <input type="number" id="totalMonthsCurrentJob" name="totalMonthsCurrentJob" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="prevPosition" class="block text-sm font-medium text-slate-700" data-i18n="prevPositionLabel"></label>
+                <input type="text" id="prevPosition" name="prevPosition" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="credentialStatus" class="block text-sm font-medium text-slate-700" data-i18n="credentialStatusLabel"></label>
+                <input type="text" id="credentialStatus" name="credentialStatus" placeholder="Escriba SÍ o NO" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+        </div>
+
+        <div class="text-center mt-10">
+            <button type="submit" id="save-profile-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 hover:bg-blue-700 w-full sm:w-auto">
+                <span data-i18n="saveProfileButton"></span>
+            </button>
+        </div>
+    </form>
+</main>
+    
+<script>
+    document.addEventListener('i18nextInitialized', () => {
+        const token = localStorage.getItem('token');
+        if (!token) { return location.href = '/login.html'; }
+        const authHeader = () => ({ 'Authorization': `Bearer ${token}` });
+
+        const form = document.getElementById('profile-form');
+        const saveBtn = document.getElementById('save-profile-btn');
+
+        // Función para cargar los datos existentes (simulación)
+        async function loadProfileData() {
+            try {
+                const res = await fetch('/api/teachers/my-profile', { headers: authHeader() }); 
+                if (!res.ok) throw new Error('Error al cargar perfil');
+                const { profile } = await res.json();
+                
+                // Rellenar formulario con datos existentes
+                document.getElementById('fullName').value = profile.fullName || '';
+                document.getElementById('phone').value = profile.phone || '';
+                document.getElementById('currentCountry').value = profile.currentCountry || '';
+                document.getElementById('englishLevel').value = profile.englishLevel || '';
+                document.getElementById('usaSSN').value = profile.usaSSN || '';
+                document.getElementById('yearsExp').value = profile.yearsExp || '';
+
+                document.getElementById('uniName').value = profile.uniName || '';
+                document.getElementById('degreeType').value = profile.degreeType || '';
+                document.getElementById('fieldOfStudy').value = profile.fieldOfStudy || '';
+
+                document.getElementById('currentPosition').value = profile.currentPosition || '';
+                document.getElementById('currentTasks').value = profile.currentTasks || '';
+                document.getElementById('totalMonthsCurrentJob').value = profile.totalMonthsCurrentJob || '';
+                document.getElementById('prevPosition').value = profile.prevPosition || '';
+                document.getElementById('credentialStatus').value = profile.credentialStatus || '';
+
+            } catch (error) {
+                console.warn('No se pudo cargar el perfil para edición:', error);
+            }
+        }
+        
+        // Manejar el envío del formulario
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Recolectar todos los datos del formulario
+            const formData = {
+                // Personal
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                currentCountry: document.getElementById('currentCountry').value,
+                englishLevel: document.getElementById('englishLevel').value,
+                usaSSN: document.getElementById('usaSSN').value,
+                yearsExp: parseInt(document.getElementById('yearsExp').value),
+
+                // Educación
+                uniName: document.getElementById('uniName').value,
+                degreeType: document.getElementById('degreeType').value,
+                fieldOfStudy: document.getElementById('fieldOfStudy').value,
+
+                // Experiencia
+                currentPosition: document.getElementById('currentPosition').value,
+                currentTasks: document.getElementById('currentTasks').value,
+                totalMonthsCurrentJob: parseInt(document.getElementById('totalMonthsCurrentJob').value),
+                prevPosition: document.getElementById('prevPosition').value,
+                credentialStatus: document.getElementById('credentialStatus').value,
+
+                // Marcar este paso como completado
+                onboardingStatus: { personalInfoComplete: true }
+            };
+            
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = 'Guardando...';
+            saveBtn.disabled = true;
+
+            try {
+                // Llama al API para guardar/actualizar el perfil
+                const res = await fetch('/api/teachers/profile', {
+                    method: 'PUT',
+                    headers: { ...authHeader(), 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!res.ok) throw new Error('Error al guardar el perfil');
+
+                alert('Perfil actualizado y paso completado exitosamente.');
+                window.location.href = '/dashboard-teacher.html';
+
+            } catch (error) {
+                console.error(error);
+                alert('Hubo un error al guardar el perfil. Inténtalo de nuevo.');
+                saveBtn.textContent = originalText;
+                saveBtn.disabled = false;
+            }
+        });
+
+        // Carga inicial y traducción
+        if (window.updateContent) {
+            window.updateContent();
+        }
+        loadProfileData();
+    });
+</script>
+</body>
+</html>

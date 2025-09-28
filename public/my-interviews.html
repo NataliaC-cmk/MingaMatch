@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Entrevistas | Minga Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .status-badge {
+            padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem;
+            font-weight: 600; text-transform: uppercase; display: inline-block;
+        }
+        .status-Propuesta { background-color: #fef9c3; color: #854d0e; }
+        .status-Aceptada { background-color: #dcfce7; color: #166534; }
+        .status-Rechazada { background-color: #fee2e2; color: #991b1b; }
+        .status-Cancelada { background-color: #e5e7eb; color: #374151; }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+<header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <span class="font-semibold text-lg text-slate-800">Minga Match</span>
+            <a href="/dashboard-teacher.html" class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg transition duration-300">
+                Volver al Dashboard
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-slate-900">Gestión de Mis Entrevistas</h1>
+        <p class="mt-2 text-slate-600">Aquí puedes ver y responder a las propuestas de entrevista de las escuelas.</p>
+    </div>
+
+    <div id="interviews-container" class="space-y-6">
+        <p id="loading-message" class="text-center text-slate-500">Cargando tus entrevistas...</p>
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const container = document.getElementById('interviews-container');
+    const loadingMessage = document.getElementById('loading-message');
+
+    const authHeader = () => ({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+    });
+
+    const formatDate = (isoString) => {
+        if (!isoString) return 'Fecha no especificada';
+        return new Date(isoString).toLocaleString('es-ES', {
+            dateStyle: 'long',
+            timeStyle: 'short'
+        });
+    };
+
+    async function handleResponse(interviewId, newStatus) {
+        try {
+            const res = await fetch(`/api/interviews/${interviewId}/respond`, {
+                method: 'PUT',
+                headers: authHeader(),
+                body: JSON.stringify({ status: newStatus })
+            });
+            if (!res.ok) throw new Error('No se pudo actualizar el estado de la entrevista.');
+            await loadInterviews();
+        } catch (error) {
+            console.error('Error al responder a la entrevista:', error);
+            alert(error.message);
+        }
+    }
+
+    async function loadInterviews() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            container.innerHTML = '<p class="text-center text-red-600">Debes iniciar sesión para ver tus entrevistas.</p>';
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/interviews/my-interviews', { headers: authHeader() });
+            if (!res.ok) throw new Error('Hubo un error al cargar tus entrevistas.');
+
+            const interviews = await res.json();
+            container.innerHTML = ''; 
+
+            if (interviews.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500">No tienes ninguna propuesta de entrevista por el momento.</p>';
+                return;
+            }
+
+            interviews.forEach(interview => {
+                const schoolName = interview.school?.profile?.schoolName || 'Escuela no disponible';
+                const jobTitle = interview.job?.title || 'Vacante no disponible';
+                const isPending = interview.status === 'Propuesta';
+
+                const interviewCard = document.createElement('div');
+                interviewCard.className = 'bg-white p-6 rounded-xl shadow-md';
+                interviewCard.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-start gap-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">${jobTitle}</h2>
+                            <p class="text-slate-600">Propuesta de: <span class="font-semibold">${schoolName}</span></p>
+                            <p class="text-sm text-slate-500 mt-2">Fecha sugerida: ${formatDate(interview.proposedDate)}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="status-badge status-${interview.status}">${interview.status}</span>
+                        </div>
+                    </div>
+                    ${interview.message ? `<div class="mt-4 p-4 bg-slate-50 rounded-lg text-slate-700">${interview.message}</div>` : ''}
+                    ${isPending ? `
+                    <div class="mt-4 pt-4 border-t flex justify-end gap-3">
+                        <button data-id="${interview._id}" data-action="Rechazada" class="action-btn bg-red-100 text-red-700 font-semibold py-2 px-4 rounded-lg hover:bg-red-200 transition">Rechazar</button>
+                        <button data-id="${interview._id}" data-action="Aceptada" class="action-btn bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Aceptar Propuesta</button>
+                    </div>` : ''}
+                `;
+                container.appendChild(interviewCard);
+            });
+
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const interviewId = e.target.dataset.id;
+                    const action = e.target.dataset.action;
+                    e.target.textContent = 'Procesando...';
+                    e.target.disabled = true;
+                    handleResponse(interviewId, action);
+                });
+            });
+
+        } catch (error) { // Este es el bloque que estaba mal ubicado
+            console.error('Error al cargar entrevistas:', error);
+            container.innerHTML = `<p class="text-center text-red-600">${error.message}</p>`;
+        }
+    }
+
+    loadInterviews();
+});
+</script>
+
+</body>
+</html>

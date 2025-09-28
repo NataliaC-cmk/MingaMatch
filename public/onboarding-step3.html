@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="step3Title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="/i18n.js" defer></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
+    </style>
+</head>
+<body class="bg-slate-100">
+
+<header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <div class="flex items-center gap-3"><img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/></div>
+        <a href="/dashboard-teacher.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600" data-i18n="backToDashboard">Volver al Dashboard</a>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-slate-900" data-i18n="step3Title"></h1>
+            <p class="mt-4 text-slate-600 max-w-2xl mx-auto" data-i18n="step3Desc"></p>
+        </div>
+
+        <hr class="my-8">
+        
+        <h2 class="text-xl font-bold text-slate-800 mb-4" data-i18n="uploadSectionTitle"></h2>
+        <p class="text-sm text-slate-500 mb-6" data-i18n="fileNoteFormat"></p>
+
+        <div id="file-upload-container" class="space-y-6">
+            
+            <div id="file-photo" class="border p-4 rounded-lg bg-slate-50">
+                <p class="font-bold text-slate-700 mb-1" data-i18n="filePhotoTitle"></p>
+                <p class="text-sm text-slate-600 mb-3" data-i18n="filePhotoNote"></p>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-green-600 font-semibold hidden uploaded-status">✅</span>
+                    <input type="file" id="upload-photo" data-type="photo" class="hidden file-input" accept=".jpg,.jpeg,.png">
+                    <label for="upload-photo" class="cursor-pointer bg-blue-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-blue-600 transition" data-i18n="chooseFileButton"></label>
+                    <button class="bg-green-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-green-600 transition upload-btn" data-type="photo" disabled data-i18n="uploadFileButton"></button>
+                </div>
+            </div>
+            
+            <div id="file-video" class="border p-4 rounded-lg bg-slate-50">
+                <p class="font-bold text-slate-700 mb-1" data-i18n="fileVideoTitle"></p>
+                <div class="text-sm text-slate-600 mb-3" data-i18n="fileVideoNote"></div>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <span class="text-sm text-green-600 font-semibold hidden uploaded-status">✅</span>
+                    <input type="url" id="input-video" data-type="video" data-i18n-placeholder="videoLinkPlaceholder" class="link-input w-full sm:w-2/3 border border-slate-300 rounded-md shadow-sm p-2 text-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    <button class="bg-green-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-green-600 transition link-btn w-full sm:w-auto" data-type="video" data-i18n="enterLinkButton"></button>
+                </div>
+            </div>
+            
+            <div id="file-employment" class="border p-4 rounded-lg bg-slate-50">
+                <p class="font-bold text-slate-700 mb-1" data-i18n="fileEmploymentTitle"></p>
+                <p class="text-sm text-slate-600 mb-3" data-i18n="fileEmploymentNote"></p>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-green-600 font-semibold hidden uploaded-status">✅</span>
+                    <input type="file" id="upload-employment" data-type="employment" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png">
+                    <label for="upload-employment" class="cursor-pointer bg-blue-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-blue-600 transition" data-i18n="chooseFileButton"></label>
+                    <button class="bg-green-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-green-600 transition upload-btn" data-type="employment" disabled data-i18n="uploadFileButton"></button>
+                </div>
+            </div>
+
+            <div id="file-credential" class="border p-4 rounded-lg bg-slate-50">
+                <p class="font-bold text-slate-700 mb-1" data-i18n="fileCredentialTitle"></p>
+                <div class="text-sm text-slate-600 mb-3" data-i18n="fileCredentialNote"></div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-green-600 font-semibold hidden uploaded-status">✅</span>
+                    <input type="file" id="upload-credential" data-type="credential" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png">
+                    <label for="upload-credential" class="cursor-pointer bg-blue-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-blue-600 transition" data-i18n="chooseFileButton"></label>
+                    <button class="bg-green-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-green-600 transition upload-btn" data-type="credential" disabled data-i18n="uploadFileButton"></button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-10">
+            <button id="complete-step-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 hover:bg-blue-700 w-full sm:w-auto" disabled>
+                <span data-i18n="saveStepButton"></span>
+            </button>
+            <p id="completion-message" class="mt-4 text-red-600 hidden" data-i18n="completionMessage"></p>
+        </div>
+    </div>
+</main>
+    
+<script>
+    document.addEventListener('i18nextInitialized', () => {
+        const token = localStorage.getItem('token');
+        if (!token) { return location.href = '/login.html'; }
+        const authHeader = () => ({ 'Authorization': `Bearer ${token}` });
+
+        const fileInputs = document.querySelectorAll('.file-input');
+        const uploadButtons = document.querySelectorAll('.upload-btn');
+        const linkButtons = document.querySelectorAll('.link-btn');
+        const completeStepBtn = document.getElementById('complete-step-btn');
+        
+        const requiredFiles = {
+            'photo': 'file', 
+            'video': 'link', 
+            'employment': 'file', 
+            'credential': 'file'
+        };
+        const uploadStatus = {};
+
+        // Inicializar el estado de subida
+        Object.keys(requiredFiles).forEach(type => uploadStatus[type] = false);
+
+        // Función para verificar si todos los archivos están subidos/guardados
+        function checkCompletionStatus() {
+            const allUploaded = Object.values(uploadStatus).every(status => status === true);
+            completeStepBtn.disabled = !allUploaded;
+            document.getElementById('completion-message').classList.toggle('hidden', allUploaded);
+        }
+
+        // --- Lógica de Subida de Archivos (Photo, Employment, Credential) ---
+
+        // Habilitar botón de Subir al seleccionar archivo
+        fileInputs.forEach(input => {
+            const fileType = input.dataset.type;
+            const uploadBtn = document.querySelector(`.upload-btn[data-type="${fileType}"]`);
+
+            input.addEventListener('change', (e) => {
+                uploadBtn.disabled = e.target.files.length === 0;
+            });
+        });
+
+        // Manejar la subida de archivos (SIMULADA)
+        uploadButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const fileType = e.target.dataset.type;
+                const input = document.getElementById(`upload-${fileType}`);
+                const file = input.files[0];
+                const statusElement = document.querySelector(`#file-${fileType} .uploaded-status`);
+                
+                if (!file) return;
+
+                const originalText = button.textContent;
+                button.textContent = 'Subiendo...';
+                button.disabled = true;
+
+                // --- INICIO DE SIMULACIÓN DE SUBIDA ---
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Espera 1.5 segundos
+                
+                try {
+                    // Si tu backend existe, reemplaza las dos líneas de arriba (await) por tu fetch real
+                    // const res = await fetch('/api/teachers/documents/upload', ...); 
+                    
+                    statusElement.classList.remove('hidden');
+                    uploadStatus[fileType] = true;
+                    alert(i18next.t('uploadSuccess'));
+
+                } catch (error) {
+                    console.error("Error real:", error);
+                    statusElement.classList.add('hidden');
+                    uploadStatus[fileType] = false;
+                    alert(error.message || i18next.t('uploadError'));
+                } finally {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    checkCompletionStatus();
+                }
+                // --- FIN DE SIMULACIÓN DE SUBIDA ---
+            });
+        });
+        
+        // --- Lógica de Guardado de Enlace (Video) ---
+
+        linkButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const linkType = e.target.dataset.type;
+                const input = document.getElementById(`input-${linkType}`);
+                const link = input.value.trim();
+                const statusElement = document.querySelector(`#file-${linkType} .uploaded-status`);
+
+                const urlRegex = /^https?:\/\/(?:www\.)?[a-zA-Z0-9-@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%._+~#?&//=]*)$/;
+                if (!urlRegex.test(link)) return alert('Por favor, ingresa un enlace (URL) válido.');
+
+                const originalText = button.textContent;
+                button.textContent = 'Guardando...';
+                button.disabled = true;
+
+                // --- INICIO DE SIMULACIÓN DE GUARDADO DE ENLACE ---
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Espera 1.5 segundos
+
+                try {
+                    // Si tu backend existe, reemplaza las dos líneas de arriba (await) por tu fetch real
+                    // const res = await fetch('/api/teachers/profile/link', ...);
+                    
+                    statusElement.classList.remove('hidden');
+                    uploadStatus[linkType] = true;
+                    alert(i18next.t('linkSuccess'));
+
+                } catch (error) {
+                    console.error("Error real:", error);
+                    statusElement.classList.add('hidden');
+                    uploadStatus[linkType] = false;
+                    alert(error.message || 'Error al guardar el enlace. Intenta de nuevo.');
+                } finally {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    checkCompletionStatus();
+                }
+                // --- FIN DE SIMULACIÓN DE GUARDADO DE ENLACE ---
+            });
+        });
+
+        // --- Lógica de Finalización del Paso ---
+
+        completeStepBtn.addEventListener('click', async () => {
+            if (!completeStepBtn.disabled) {
+                completeStepBtn.textContent = 'Guardando...';
+
+                try {
+                    // SIMULACIÓN DE GUARDADO FINAL
+                    const res = await fetch('/api/teachers/profile/onboarding-status', {
+                        method: 'PUT',
+                        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ step: 'filesUploaded' })
+                    });
+                    if (!res.ok) throw new Error('No se pudo guardar el progreso');
+
+                    window.location.href = '/dashboard-teacher.html';
+                } catch (error) {
+                    alert('Hubo un error al completar el paso. Inténtalo de nuevo.');
+                    completeStepBtn.textContent = i18next.t('saveStepButton');
+                }
+            }
+        });
+
+        // Carga inicial de traducciones y estados
+        const loadInitialContent = () => {
+            if (window.updateContent) {
+                window.updateContent();
+            }
+            // Traducir el placeholder del input de video
+            document.getElementById('input-video').placeholder = i18next.t('videoLinkPlaceholder');
+        };
+
+        if (i18next.isInitialized) {
+            loadInitialContent();
+        } else {
+            document.addEventListener('i18nextInitialized', loadInitialContent);
+        }
+        
+        checkCompletionStatus();
+    });
+</script>
+</body>
+</html>

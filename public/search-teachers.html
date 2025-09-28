@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Buscar Talento | Minga Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+<header class="bg-slate-800 text-white shadow-md sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
+                <span class="font-bold text-xl">Minga Match</span>
+            </div>
+            <div>
+                <a href="/dashboard-school.html" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900">Búsqueda de Talento</h1>
+        <p class="text-slate-500 mt-1">Encuentra proactivamente a los candidatos ideales para tu institución.</p>
+    </div>
+
+    <!-- Filters Section -->
+    <section class="bg-white shadow-lg rounded-xl p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <input id="filter-specialty" type="text" placeholder="Especialidad (Ej: Matemáticas)" class="lg:col-span-2 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <select id="filter-english" class="block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Nivel de Inglés (mín.)</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="C1">C1</option>
+            </select>
+            <button id="search-btn" class="col-span-full lg:col-span-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Buscar Profesores</button>
+             <button id="reset-btn" class="col-span-full lg:col-span-1 bg-white text-slate-700 border border-slate-300 font-bold py-2 px-4 rounded-lg hover:bg-slate-50 transition">Limpiar</button>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results-container" class="space-y-6">
+        <p class="text-slate-500 text-center py-10">Ajusta los filtros y haz clic en "Buscar" para encontrar talento.</p>
+    </section>
+</main>
+
+<script>
+    // --- Guardia de Sesión (School/Admin) ---
+    (function guard() {
+        const role = localStorage.getItem('role');
+        if (!localStorage.getItem('token') || (role !== 'school' && role !== 'admin')) {
+            alert('Acceso denegado.');
+            location.href = '/login.html';
+        }
+    })();
+    const authHeader = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+
+    // --- Elementos del DOM ---
+    const resultsContainer = document.getElementById('results-container');
+    const searchBtn = document.getElementById('search-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // --- Lógica de Búsqueda ---
+    async function searchTeachers() {
+        resultsContainer.innerHTML = `<p class="text-slate-500 text-center py-10">Buscando...</p>`;
+
+        const filters = {
+            specialty: document.getElementById('filter-specialty').value,
+            englishLevel: document.getElementById('filter-english').value,
+        };
+
+        const params = new URLSearchParams();
+        if (filters.specialty) params.append('specialty', filters.specialty);
+        if (filters.englishLevel) params.append('englishLevel', filters.englishLevel);
+
+        try {
+            const res = await fetch(`/api/teachers/search?${params.toString()}`, { headers: authHeader() });
+            if (!res.ok) throw new Error('No se pudo realizar la búsqueda');
+            const teachers = await res.json();
+            renderResults(teachers);
+        } catch (error) {
+            console.error('Error en la búsqueda:', error);
+            resultsContainer.innerHTML = `<p class="text-red-600 text-center py-10">Error al cargar los resultados.</p>`;
+        }
+    }
+
+    // --- Renderizado ---
+    function renderResults(teachers) {
+        if (!teachers || teachers.length === 0) {
+            resultsContainer.innerHTML = `<div class="bg-white shadow-lg rounded-xl p-8 text-center text-slate-500">No se encontraron profesores con esos criterios de búsqueda.</div>`;
+            return;
+        }
+
+        resultsContainer.innerHTML = teachers.map(teacher => `
+            <article class="bg-white shadow-lg rounded-xl p-6 flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div class="flex items-center gap-4">
+                    <img src="${teacher.profile.profileImageUrl || 'https://placehold.co/80x80/e2e8f0/475569?text=Perfil'}" alt="Foto de ${teacher.profile.fullName}" class="w-20 h-20 rounded-full object-cover">
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">${teacher.profile.fullName}</h3>
+                        <p class="text-sm text-slate-500">${teacher.profile.education[0]?.fieldOfStudy || 'Especialidad no definida'}</p>
+                        <p class="text-sm text-slate-500">${teacher.profile.personalInfo?.residenceCountry || 'País no definido'}</p>
+                    </div>
+                </div>
+                <div class="w-full sm:w-auto flex-shrink-0 mt-4 sm:mt-0">
+                    <a href="/teacher-profile-view.html?id=${teacher._id}" target="_blank" class="w-full sm:w-auto inline-block text-center bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Ver Perfil Completo</a>
+                </div>
+            </article>
+        `).join('');
+    }
+    
+    // --- Event Listeners ---
+    searchBtn.addEventListener('click', searchTeachers);
+    resetBtn.addEventListener('click', () => {
+        document.getElementById('filter-specialty').value = '';
+        document.getElementById('filter-english').value = '';
+        resultsContainer.innerHTML = `<p class="text-slate-500 text-center py-10">Ajusta los filtros y haz clic en "Buscar" para encontrar talento.</p>`;
+    });
+
+</script>
+</body>
+</html>
