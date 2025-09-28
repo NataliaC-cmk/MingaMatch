@@ -12,34 +12,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script>
+        // Define la ruta base del repositorio (CRÍTICO)
+        const REPO_PATH = '/MingaMatch/';
+        
+        // Esta función corrige los enlaces de navegación y recursos estáticos
+        function fixPathsForGitHubPages() {
+            // Verifica si estamos en el entorno de GitHub Pages
+            if (window.location.host.endsWith('github.io') && window.location.pathname.startsWith(REPO_PATH)) {
+                
+                // 1. Corregir todos los enlaces de navegación (a[href])
+                document.querySelectorAll('a[href]').forEach(link => {
+                    let href = link.getAttribute('href');
+                    // Solo aplica a enlaces internos simples como login.html
+                    if (href && (href.endsWith('.html') || !href.includes('.')) && !href.startsWith('http')) {
+                        link.setAttribute('href', REPO_PATH + href);
+                    }
+                });
+
+                // 2. Corregir imágenes y scripts estáticos
+                document.querySelectorAll('img[src], script[src]').forEach(element => {
+                    const attr = element.hasAttribute('src') ? 'src' : 'href';
+                    let value = element.getAttribute(attr);
+                    
+                    // Solo aplica a recursos locales y relativos (ej: i18n.js)
+                    if (value && !value.startsWith('http') && !value.startsWith('/') && value.includes('.')) {
+                        // El archivo está en la carpeta 'docs', que se esconde de la URL. 
+                        // Sin embargo, para que el script de re-escritura funcione, 
+                        // debemos apuntar a la base del repo, no a la subcarpeta 'docs'.
+                        element.setAttribute(attr, REPO_PATH + value);
+                    }
+                });
+            }
+        }
+
+        // Llamamos a la función al cargar la página
+        document.addEventListener('DOMContentLoaded', fixPathsForGitHubPages);
+        
+        // Función auxiliar para redirigir (usada en los botones onclick, ahora limpia)
+        window.redirectTo = function(path) {
+            window.location.href = REPO_PATH + path;
+        };
+
+    </script>
 
     <style>
+        /* ... (tus estilos CSS) ... */
         body { 
             font-family: 'Inter', sans-serif; 
             scroll-behavior: smooth;
             background-color: #f8fafc;
         }
-        /* ... (tus estilos CSS siguen aquí) ... */
-        .glass-header { 
-            background-color: rgba(255, 255, 255, 0.8); 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px); 
-        } 
-        .animated-gradient { 
-            background-image: linear-gradient(to right, #3b82f6, #60a5fa, #93c5fd); 
-            background-size: 200% auto; 
-            transition: background-position 0.5s ease; 
-        } 
-        .animated-gradient:hover { 
-            background-position: right center; 
-        } 
-        .benefit-card { 
-            transition: transform 0.3s ease, box-shadow 0.3s ease; 
-        } 
-        .benefit-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); 
-        } 
+        .glass-header { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } 
+        .animated-gradient { background-image: linear-gradient(to right, #3b82f6, #60a5fa, #93c5fd); background-size: 200% auto; transition: background-position 0.5s ease; } 
+        .animated-gradient:hover { background-position: right center; } 
+        .benefit-card { transition: transform 0.3s ease, box-shadow 0.3s ease; } 
+        .benefit-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); } 
     </style>
 </head>
 <body class="text-slate-800">
@@ -58,8 +87,8 @@
                     <option value="es">ES</option>
                     <option value="en">EN</option>
                 </select>
-                <a href="#" onclick="redirectTo('/login.html')" class="hidden sm:block font-bold text-slate-600 hover:text-blue-600 transition" data-i18n="loginButton"></a>
-                <a href="#" onclick="redirectTo('/register-teacher.html')" class="animated-gradient text-white font-bold py-2 px-5 rounded-lg transition duration-300 shadow-lg shadow-blue-500/30" data-i18n="registerButton"></a>
+                <a href="#" onclick="redirectTo('login.html')" class="hidden sm:block font-bold text-slate-600 hover:text-blue-600 transition" data-i18n="loginButton"></a>
+                <a href="#" onclick="redirectTo('register-teacher.html')" class="animated-gradient text-white font-bold py-2 px-5 rounded-lg transition duration-300 shadow-lg shadow-blue-500/30" data-i18n="registerButton"></a>
             </div>
         </nav>
     </header>
@@ -70,8 +99,8 @@
                 <h1 class="text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight" data-i18n="heroTitle"></h1>
                 <p class="mt-6 max-w-xl mx-auto md:mx-0 text-lg text-slate-600" data-i18n="heroSubtitle"></p>
                 <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="#" onclick="redirectTo('/register-teacher.html')" class="animated-gradient text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-xl shadow-blue-500/30" data-i18n="ctaTeacher"></a>
-                    <a href="#" onclick="redirectTo('/register-school.html')" class="bg-white hover:bg-slate-100 text-slate-700 font-bold py-3 px-8 rounded-lg text-lg transition duration-300 border-2 border-slate-300" data-i18n="ctaSchool"></a>
+                    <a href="#" onclick="redirectTo('register-teacher.html')" class="animated-gradient text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-xl shadow-blue-500/30" data-i18n="ctaTeacher"></a>
+                    <a href="#" onclick="redirectTo('register-school.html')" class="bg-white hover:bg-slate-100 text-slate-700 font-bold py-3 px-8 rounded-lg text-lg transition duration-300 border-2 border-slate-300" data-i18n="ctaSchool"></a>
                 </div>
             </div>
             <div class="mt-10 md:mt-0" data-aos="fade-left" data-aos-delay="200">
@@ -138,24 +167,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Define la ruta base del repositorio para usar en las redirecciones JS
-        const REPO_PATH = '/MingaMatch'; 
-
-        // Función auxiliar para redirigir (usada en los botones onclick)
-        window.redirectTo = function(path) {
-            window.location.href = REPO_PATH + path;
-        };
-        
-        // --- INYECCIÓN DE RUTAS ABSOLUTAS AL CARGAR EL DOM ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Asegura que las imágenes y scripts carguen correctamente en GitHub Pages
-            document.querySelectorAll('img[src], script[src]').forEach(element => {
-                const src = element.getAttribute('src');
-                if (src && !src.startsWith('http') && !src.startsWith('/') && src.includes('.')) {
-                    element.setAttribute('src', REPO_PATH + '/docs/' + src);
-                }
-            });
-
             AOS.init({
                 duration: 800,
                 once: true,
