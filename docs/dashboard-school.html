@@ -6,12 +6,13 @@
     <title>Minga Match | Dashboard Escuela</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
-    <script src="i18n.js" defer></script> 
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .match-score-high { color: #10b981; } /* Emerald 500 */
+        .match-score-medium { color: #f59e0b; } /* Amber 500 */
+        .match-score-low { color: #ef4444; } /* Red 500 */
+        .progress-bar-inner { transition: width 0.5s ease-out; }
         .tab-btn.active { 
             border-bottom: 2px solid #3b82f6; /* blue-600 */
             color: #3b82f6; /* blue-600 */
@@ -20,16 +21,16 @@
 </head>
 <body class="bg-gray-50">
 
-<header class="bg-white shadow-md sticky top-0 z-20">
+<header class="bg-slate-800 text-white shadow-md sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <img id="logo-img" src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl text-blue-700">Minga Match | Escuela</span>
+                <span class="font-bold text-xl">Minga Match | Escuela</span>
             </div>
             <div class="flex items-center gap-4">
-                <a href="#" onclick="redirectTo('/profile-school.html');" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Perfil</a>
-                <a href="#" onclick="redirectTo('/school-settings.html');" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Ajustes</a>
+                <a href="#" onclick="redirectTo('/search-teachers.html');" class="text-sm font-medium text-slate-300 hover:text-white transition">Buscar Profesores</a>
+                <a href="#" onclick="redirectTo('/school-interviews.html');" class="text-sm font-medium text-slate-300 hover:text-white transition">Mis Entrevistas</a>
                 <button id="logout" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-sm">
                     Cerrar sesión
                 </button>
@@ -39,82 +40,45 @@
 </header>
 
 <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-slate-900 mb-2">Bienvenido(a), <span id="school-name">Escuela [Nombre]</span></h1>
+    <h1 class="text-3xl font-bold text-slate-900 mb-2">Bienvenido(a), <span id="school-name">Escuela Central</span></h1>
     <p class="text-slate-600 mb-8">Administra tus vacantes y revisa a los candidatos emparejados por la IA.</p>
 
     <div class="mb-6 border-b border-gray-200">
         <nav class="flex space-x-4" id="schoolTabs">
             <button data-target="vacancies-section" class="tab-btn active px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600 hover:text-blue-700 transition">Vacantes Activas</button>
-            <button data-target="candidates-section" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-blue-600 transition">Candidatos Emparejados</button>
+            <button data-target="candidates-section" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-blue-600 transition">Candidatos Match</button>
         </nav>
     </div>
 
     <section id="vacancies-section" class="tab-content bg-white shadow-lg rounded-xl p-6 border border-slate-200">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-slate-800">Vacantes Publicadas (3)</h2>
-            <button onclick="redirectTo('/new-vacancy.html');" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition duration-300">
+            <button onclick="redirectTo('/post-job.html');" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition duration-300">
                 + Crear Nueva Vacante
             </button>
         </div>
         
-        <div class="space-y-4">
-            <div class="p-4 border border-blue-200 rounded-lg shadow-sm bg-blue-50 flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-700">Profesor de Matemáticas (High School)</h3>
-                    <p class="text-sm text-slate-500">Publicada: 15/Ago/2025 | Candidatos: 7</p>
-                </div>
-                <button class="text-blue-600 hover:underline text-sm font-medium">Ver detalles &rarr;</button>
-            </div>
-            <div class="p-4 border border-blue-200 rounded-lg shadow-sm bg-blue-50 flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-700">Educación Primaria (Grado 3)</h3>
-                    <p class="text-sm text-slate-500">Publicada: 01/Sep/2025 | Candidatos: 12</p>
-                </div>
-                <button class="text-blue-600 hover:underline text-sm font-medium">Ver detalles &rarr;</button>
-            </div>
-            <div class="p-4 border border-red-200 rounded-lg shadow-sm bg-red-50 flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-700">Profesor de Español (Middle School)</h3>
-                    <p class="text-sm text-slate-500">Publicada: 20/Sep/2025 | Candidatos: 0</p>
-                </div>
-                <button class="text-blue-600 hover:underline text-sm font-medium">Ver detalles &rarr;</button>
-            </div>
+        <div class="space-y-4" id="vacancies-list">
+            
         </div>
     </section>
 
     <section id="candidates-section" class="tab-content bg-white shadow-lg rounded-xl p-6 border border-slate-200 hidden">
-        <h2 class="text-xl font-bold text-slate-800 mb-4">Candidatos con Alto Potencial de Match</h2>
-        <div class="overflow-x-auto">
-             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+        <h2 class="text-xl font-bold text-slate-800 mb-4">Candidatos Sugeridos por Match Score</h2>
+        
+        <div id="matches-list-container" class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Candidato</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vacante Match</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Match Score</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score IA</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="candidates-table-body" class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">María C. López</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Matemáticas</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">92%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600">En Revisión</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900">Ver Perfil</button>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Carlos R. Montes</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Educ. Primaria</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-semibold">88%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">Aceptado</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900">Ver Perfil</button>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="matches-list" class="bg-white divide-y divide-gray-200">
+                    </tbody>
             </table>
         </div>
     </section>
@@ -129,7 +93,76 @@
         window.location.href = REPO_PATH + path;
     };
 
-    // --- Guardia de Sesión ---
+    // --- Data Mockup ---
+    const mockVacancies = [
+        { id: 'v1', title: 'Profesor de Matemáticas', subject: 'Matemáticas', location: 'Houston, TX', candidates: 7, status: 'Active' },
+        { id: 'v2', title: 'Maestro de Primaria Bilingüe', subject: 'Bilingüe', location: 'Miami, FL', candidates: 12, status: 'Active' },
+        { id: 'v3', title: 'Tutor de Ciencias', subject: 'Ciencias', location: 'New York, NY', candidates: 0, status: 'Closed' }
+    ];
+
+    const mockMatches = [
+        { id: 'm1', teacherName: 'Sofía R. (Colombia)', jobTitle: 'Matemáticas', score: 92, status: 'Pendiente', teacherId: 't1' },
+        { id: 'm2', teacherName: 'Carlos G. (México)', jobTitle: 'Matemáticas', score: 75, status: 'Visto', teacherId: 't2' },
+        { id: 'm3', teacherName: 'Ana B. (Chile)', jobTitle: 'Primaria Bilingüe', score: 60, status: 'Entrevista', teacherId: 't3' },
+        { id: 'm4', teacherName: 'David L. (España)', jobTitle: 'Primaria Bilingüe', score: 35, status: 'Rechazado', teacherId: 't4' },
+    ];
+
+    // --- Renderizado de Componentes ---
+
+    function getScoreClass(score) {
+        if (score >= 80) return 'match-score-high';
+        if (score >= 60) return 'match-score-medium';
+        return 'match-score-low';
+    }
+
+    function renderVacancies() {
+        const listContainer = document.getElementById('vacancies-list');
+        listContainer.innerHTML = mockVacancies.map(job => `
+            <div class="p-4 border ${job.status === 'Closed' ? 'border-red-300 opacity-60' : 'border-blue-200'} rounded-lg shadow-sm bg-white flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-700">${job.title}</h3>
+                    <p class="text-sm text-slate-500">${job.location} | Candidatos: ${job.candidates}</p>
+                </div>
+                <div class="space-x-3">
+                    <button onclick="alert('Funcionalidad Ver Postulantes para ${job.title}')" class="text-blue-600 hover:underline text-sm font-medium">
+                        Ver Postulantes
+                    </button>
+                    <a href="#" onclick="redirectTo('/edit-job.html?id=${job.id}')" class="text-slate-600 hover:text-slate-900 text-sm font-medium">
+                        Editar
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderMatches() {
+        const matchesList = document.getElementById('matches-list');
+        matchesList.innerHTML = mockMatches.map(match => `
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${match.teacherName}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${match.jobTitle}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold ${getScoreClass(match.score)}">${match.score}%</span>
+                        <div class="w-16 h-2 bg-gray-200 rounded-full">
+                            <div class="h-full rounded-full ${getScoreClass(match.score).replace('text', 'bg')} progress-bar-inner" style="width:${match.score}%;"></div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${match.status === 'Entrevista' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                        ${match.status}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                    <button onclick="redirectTo('/teacher-profile-view.html?id=${match.teacherId}')" class="text-blue-600 hover:text-blue-900">Ver Perfil</button>
+                    <button onclick="redirectTo('/school-interviews.html')" class="text-green-600 hover:text-green-900">Agendar</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // --- Lógica de Inicialización y Eventos ---
     (function guard() {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
@@ -147,11 +180,11 @@
             logo.src = REPO_PATH + '/logo-minga.png';
         }
         
-        // Simulación de carga de nombre de la escuela
-        document.getElementById('school-name').textContent = 'Memphis High School';
+        // Carga de datos
+        renderVacancies();
+        renderMatches();
 
-
-        // --- Lógica de Pestañas (Reutilizable) ---
+        // Lógica de Pestañas
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -159,25 +192,26 @@
             button.addEventListener('click', () => {
                 const targetId = button.getAttribute('data-target');
 
-                // Ocultar todos los contenidos y desactivar botones
                 tabContents.forEach(content => content.classList.add('hidden'));
                 tabBtns.forEach(btn => btn.classList.remove('active', 'border-blue-600', 'text-blue-600'));
                 tabBtns.forEach(btn => btn.classList.add('text-gray-500'));
 
-                // Mostrar el contenido objetivo y activar el botón
                 document.getElementById(targetId).classList.remove('hidden');
                 button.classList.add('active', 'border-blue-600', 'text-blue-600');
                 button.classList.remove('text-gray-500');
             });
         });
+        
+        // Activación de la primera pestaña al cargar
+        document.querySelector('.tab-btn').click();
 
-        // --- Lógica de Logout ---
+        // Lógica de Logout
         document.getElementById('logout').addEventListener('click', () => { 
             localStorage.clear(); 
             window.location.href = REPO_PATH + '/index.html'; // Redirigir al inicio
         });
-        
-        // Si tienes i18n cargado, actualiza el contenido
+
+         // Si tienes i18n cargado, asegura la traducción
         if (window.updateContent) {
             window.updateContent();
         }

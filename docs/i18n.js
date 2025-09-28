@@ -1,4 +1,4 @@
-// public/i18n.js (Versión FINAL y COMPLETA con todas las traducciones)
+// public/i18n.js (Versión FINAL y COMPLETA con todas las correcciones)
 
 const resources = {
   es: {
@@ -73,14 +73,13 @@ const resources = {
       "school": "Escuela",
       "or": "o",
 
-
-      // --- Pasos del Onboarding (Títulos usados en el Dashboard) ---
+      // --- Contenido del Dashboard y Onboarding (SE MANTIENE) ---
       "step1Title": "Paso 1: Acepta Términos y Condiciones",
       "step2Title": "Paso 0: Prepara Documentos",
       "step3Title": "Paso 2: Sube Documentos",
       "step4Title": "Paso 3: Completa Tu Perfil",
 
-      // [Resto del contenido de Acuerdo, Documentos, Perfil se mantiene igual]
+      // [Todo el resto del contenido se mantiene igual]
       "agreementTitle": "Acuerdo de Servicio Minga Match",
       "agreementText": `
         <h3 class="text-lg font-semibold mb-2">TeachUSA.</h3>
@@ -135,10 +134,10 @@ const resources = {
       "mingaDiscountNote": "<strong>Importante:</strong> ¡Diles que vas de parte de Minga Teachers para obtener un posible descuento!",
       "step3Desc": "Sube los archivos necesarios para que las escuelas puedan evaluar tu perfil. Recuerda que la 'Credential Evaluation' debe estar ya lista.",
       "uploadSectionTitle": "Archivos Requeridos",
-      "filePhotoTitle": "Foto de Perfil (Cara visible, fondo claro)",
+      "filePhotoTitle": "Profile Photo (Cara visible, fondo claro)",
       "filePhotoNote": "Será la imagen principal en tu perfil. Debe ser profesional y reciente.",
       "fileVideoTitle": "Video de Presentación Personal",
-      "fileVideoNote": "<ul><li>Duración: 30 a 40 segundos.</li><li>Enfócate en la claridad de tu inglés y en mostrar tu personalidad docente.</li><li>Dirígete como si hablaras a un director. ¡Muestra entusiasmo y energía positiva!</li><li><a href='https://www.mingateachers.org/docentes.html' target='_blank' class='text-blue-600 hover:underline'>Ver ejemplos aquí.</a></li></ul>",
+      "fileVideoNote": "<ul><li>Duración: 30 to 40 seconds.</li><li>Enfócate en la claridad de tu inglés y en mostrar tu personalidad docente.</li><li>Dirígete como si hablaras a un director. ¡Muestra entusiasmo y energía positiva!</li><li><a href='https://www.mingateachers.org/docentes.html' target='_blank' class='text-blue-600 hover:underline'>Ver ejemplos aquí.</a></li></ul>",
       "videoLinkPlaceholder": "Pega aquí el enlace público de YouTube o Vimeo...",
       "fileEmploymentTitle": "Carta(s) Laboral(es) (Mínimo 24 meses)",
       "fileEmploymentNote": "La carta debe: Estar en papel oficial (membrete). Tener fecha actual. Indicar tu cargo, materias y niveles. Incluir fechas de empleo completas. Confirmar si es tiempo completo/parcial. Incluir email/teléfono de contacto del firmante. Estar firmada por un administrador.",
@@ -153,8 +152,8 @@ const resources = {
       "uploadError": "Error al subir archivo. Intenta de nuevo.",
       "completionMessage": "You must upload/save all required files and links.",
       "step4Desc": "Fill out your personal and professional information so that schools can get to know you better.",
-      "personalInfoSection": "Información Personal y Datos Clave",
-      "professionalInfoSection": "Experiencia Profesional y Credenciales",
+      "personalInfoSection": "Personal Information and Key Data",
+      "professionalInfoSection": "Professional Experience and Credentials",
       "fullNameLabel": "Full Name (as per passport)",
       "phoneLabel": "Phone Number",
       "currentCountryLabel": "Current Country of Residence",
@@ -169,7 +168,7 @@ const resources = {
       "totalMonthsCurrentJobLabel": "Total months worked in the current position",
       "prevPositionLabel": "Previous Position and Grade Level (if applicable)",
       "credentialStatusLabel": "Do you have your Credential Evaluation?",
-      "saveProfileButton": "Guardar Perfil"
+      "saveProfileButton": "Save Profile"
     }
   }
 };
@@ -215,3 +214,4 @@ document.addEventListener('DOMContentLoaded', () => {
 if (i18next.isInitialized) {
     window.updateContent();
 }
+

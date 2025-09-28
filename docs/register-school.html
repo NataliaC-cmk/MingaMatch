@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="registerSchoolTitle"></title>
+    <title>Registro | Escuela</title> 
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
     <script src="i18n.js" defer></script> 
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style> 
         body { font-family: 'Inter', sans-serif; } 
@@ -14,33 +16,33 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
 
-<div class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+<div class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg border border-slate-200">
     <div class="text-center">
         <img class="mx-auto h-12 w-auto" src="logo-minga.png" alt="Minga Match Logo" />
-        <h2 class="mt-6 text-3xl font-extrabold text-gray-900" data-i18n="registerSchoolHeader"></h2>
+        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Regístrate como Escuela</h2>
         <p class="mt-2 text-sm text-gray-600">
-            <span data-i18n="alreadyHaveAccount"></span> 
-            <a href="#" onclick="window.location.href = REPO_PATH + '/login.html';" class="font-medium text-blue-600 hover:text-blue-500" data-i18n="loginLink"></a>
+            <span>¿Ya tienes una cuenta?</span> 
+            <a href="#" onclick="redirectTo('/login.html');" class="font-medium text-blue-600 hover:text-blue-500">Inicia Sesión</a>
         </p>
     </div>
 
     <form class="mt-8 space-y-6" id="register-form">
         <div class="rounded-md shadow-sm -space-y-px">
-             <div>
-                <label for="school-name" class="sr-only" data-i18n="schoolNameLabel"></label>
-                <input id="school-name" name="school-name" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="schoolNamePlaceholder">
+            <div>
+                <label for="school-name" class="sr-only">Nombre de la Escuela/Distrito</label>
+                <input id="school-name" name="school-name" type="text" autocomplete="organization" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Nombre de la Escuela/Distrito">
             </div>
             <div>
-                <label for="school-email" class="sr-only" data-i18n="emailLabel"></label>
-                <input id="school-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="emailPlaceholder">
+                <label for="school-email" class="sr-only">Correo Electrónico de Contacto</label>
+                <input id="school-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Correo Electrónico de Contacto">
             </div>
             <div>
-                <label for="school-password" class="sr-only" data-i18n="passwordLabel"></label>
-                <input id="school-password" name="password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="passwordPlaceholder">
+                <label for="school-password" class="sr-only">Contraseña</label>
+                <input id="school-password" name="password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Contraseña">
             </div>
             <div>
-                <label for="confirm-password" class="sr-only" data-i18n="confirmPasswordLabel"></label>
-                <input id="confirm-password" name="confirm-password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="confirmPasswordPlaceholder">
+                <label for="confirm-password" class="sr-only">Confirmar Contraseña</label>
+                <input id="confirm-password" name="confirm-password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Confirmar Contraseña">
             </div>
         </div>
 
@@ -48,19 +50,27 @@
 
         <div>
             <button type="submit" id="register-btn" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <span data-i18n="registerButton"></span>
+                Registrar
             </button>
         </div>
     </form>
 </div>
 
 <script>
+    // CRÍTICO: Define la ruta base del repositorio
     const REPO_PATH = '/MingaMatch'; 
 
-    document.addEventListener('i18nextInitialized', () => {
-        // Corrección de ruta para imágenes del header
-        const logo = document.querySelector('.h-12');
-        if (logo) logo.src = REPO_PATH + '/logo-minga.png';
+    // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
+    window.redirectTo = function(path) {
+        window.location.href = REPO_PATH + path;
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // CRÍTICO: Corrección de ruta para el logo
+        const logo = document.querySelector('img[alt="Minga Match Logo"]');
+        if (logo) {
+            logo.src = REPO_PATH + '/logo-minga.png';
+        }
 
         const form = document.getElementById('register-form');
         const registerBtn = document.getElementById('register-btn');
@@ -76,30 +86,27 @@
             const confirmPassword = document.getElementById('confirm-password').value;
 
             if (password !== confirmPassword) {
-                errorMessage.textContent = i18next.t('passwordMismatch');
+                errorMessage.textContent = 'Las contraseñas no coinciden.'; 
                 errorMessage.classList.remove('hidden');
-                registerBtn.textContent = i18next.t('registerButton');
+                registerBtn.textContent = 'Registrar';
                 registerBtn.disabled = false;
                 return;
             }
 
             try {
                 // SIMULACIÓN: Registro exitoso
-                alert(i18next.t('registrationSuccess'));
+                alert('¡Registro de Escuela exitoso! Por favor, inicia sesión.');
+                // Redirigir al login
                 window.location.href = REPO_PATH + '/login.html'; 
 
             } catch (error) {
-                errorMessage.textContent = error.message || i18next.t('registrationError');
+                errorMessage.textContent = 'Error en el registro (Simulación).';
                 errorMessage.classList.remove('hidden');
             } finally {
-                registerBtn.textContent = i18next.t('registerButton');
+                registerBtn.textContent = 'Registrar';
                 registerBtn.disabled = false;
             }
         });
-        
-        if (window.updateContent) {
-            window.updateContent();
-        }
     });
 </script>
 </body>
