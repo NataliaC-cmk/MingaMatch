@@ -1,3 +1,2 @@
-# Directorios de dependencias
+# Ignorar carpetas grandes de dependencias
 node_modules/
-.vscode/
