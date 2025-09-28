@@ -3,7 +3,7 @@
 const resources = {
   es: {
     translation: {
-      // --- General, Navegación y Estados ---
+      // --- General, Navegación y Estados (Dashboard) ---
       "teacherDashboardTitle": "Minga Match | Dashboard",
       "loginTitle": "Iniciar Sesión | Minga Match",
       "logoutButton": "Cerrar Sesión",
@@ -33,7 +33,7 @@ const resources = {
       "aiBannerText": 'Impulsado por Tecnología de Emparejamiento con IA.',
       "benefitsTitle": '¿Por Qué Elegir Minga Match?',
 
-      // Beneficios (ejemplo, debes verificar que todas tus claves existan)
+      // Beneficios 
       "benefit1Title": 'Ruta Directa a la Visa J-1',
       "benefit1Text": 'Nuestro programa está diseñado para asegurar tu Visa J-1 de Profesor, simplificando tu transición a la enseñanza en EE. UU.',
       "benefit2Title": 'Servicio de Asesoría Gratuito',
@@ -41,17 +41,17 @@ const resources = {
       "benefit3Title": 'Emparejamiento con IA',
       "benefit3Text": 'Nuestra plataforma utiliza tecnología inteligente para emparejar tu perfil y experiencia directamente con escuelas que se ajustan a tus calificaciones.',
       "benefit4Title": 'Salarios Competitivos',
-      benefit4Text: 'Asegura puestos que ofrecen salarios competitivos en EE. UU., garantizando estabilidad financiera para tu mudanza.',
+      "benefit4Text": 'Asegura puestos que ofrecen salarios competitivos en EE. UU., garantizando estabilidad financiera para tu mudanza.',
       "benefit5Title": 'Soporte de Onboarding Completo',
-      benefit5Text: 'Te ayudamos a preparar todos los documentos necesarios, incluyendo evaluación de credenciales y guías de traducción.',
+      "benefit5Text": 'Te ayudamos a preparar todos los documentos necesarios, incluyendo evaluación de credenciales y guías de traducción.',
       "benefit6Title": 'Comunidad',
-      benefit6Text: 'Únete a una comunidad vibrante de docentes que han hecho una transición exitosa a la enseñanza en Estados Unidos.',
+      "benefit6Text": 'Únete a una comunidad vibrante de docentes que han hecho una transición exitosa a la enseñanza en Estados Unidos.',
       "benefit7Title": 'Alta Colocación',
-      benefit7Text: 'Nuestro enfoque especializado resulta en una alta tasa de colocación en diversos distritos a lo largo de EE. UU.',
+      "benefit7Text": 'Nuestro enfoque especializado resulta en una alta tasa de colocación en diversos distritos a lo largo de EE. UU.',
       "benefit8Title": 'Planificación Financiera',
-      benefit8Text: 'Proporcionamos guías claras sobre los ahorros requeridos y los costos esperados para un primer mes sin contratiempos.',
+      "benefit8Text": 'Proporcionamos guías claras sobre los ahorros requeridos y los costos esperados para un primer mes sin contratiempos.',
       "benefit9Title": 'Crecimiento Profesional',
-      benefit9Text: 'El programa J-1 es un intercambio cultural de dos a tres años, abriendo puertas para el crecimiento profesional a largo plazo.',
+      "benefit9Text": 'El programa J-1 es un intercambio cultural de dos a tres años, abriendo puertas para el crecimiento profesional a largo plazo.',
 
       // --- Pasos del Onboarding (Títulos usados en el Dashboard) ---
       "step1Title": "Paso 1: Acepta Términos y Condiciones",
@@ -103,17 +103,19 @@ const resources = {
       `,
       "agreementCheckboxLabel": "Al seleccionar esta casilla, confirmo que he leído y acepto los términos y condiciones del Acuerdo de Servicio Minga Match.",
 
-      // --- Contenido del Paso 0 al Paso 3 (Documentos, Perfil, etc. - SE MANTIENE) ---
+      // --- Contenido del Paso 0 (Preparación de Documentos y Traductores) ---
       "step0ContinueButton": "Tengo mis documentos, continuar al Paso 1",
       "step2Desc": "Confirma que tienes los documentos esenciales listos.",
       "step2InfoIntro": "Para aplicar debes contar con tu diploma original, sabana de notas a color con todos los semestres y firmada, pasaporte, carta(s) laborales confirmando que estas trabajando actualmente y que tienes mínimo 24 meses de experiencia como docente.",
-      "step2SavingsNote": "<strong>Necesitas ahorros</strong> para tu primer mes de estadía mientras esperas tu primer salario. Más información en el <a href='/resources.html' class='text-blue-600 hover:underline'>Centro de Recursos</a>.",
+      "step2SavingsNote": "<strong>Necesitas ahorros</strong> para tu primer mes de estadía mientras esperas tu primer salario. Más información en el <a href='resources.html' class='text-blue-600 hover:underline'>Centro de Recursos</a>.",
       "translationGuideTitle": "Guía de Traductores Oficiales Recomendados",
       "step2TranslationIntro": "La sabana de notas y el diploma se deben traducir para luego obtener la homologación. Te recomendamos estos traductores para evitar costos elevados en EE.UU.",
       "translatorColombia": "🇨🇴 COLOMBIA - Official Translator<br><strong>TU CENTRAL DE VISAS</strong><br>Contacto: Stefani o Anderson<br>WhatsApp: +57 350 619 2000<br>Email: asesorvisas4@tucentraldevisas.com",
       "translatorCostaRica": "🇨🇷 COSTA RICA - Claudia Marín Montero (Traductora Oficial)<br>WhatsApp: +506 8735 0930<br>Email: clmm2803@yahoo.com",
       "translatorArgentina": "🇦🇷 ARGENTINA - Barbara Vivot Traducciones<br>Contacto: Barbara Vivot<br>WhatsApp: +54 9 11 3249 1270<br>Email: mbarbaravivot@gmail.com",
       "mingaDiscountNote": "<strong>Importante:</strong> ¡Diles que vas de parte de Minga Teachers para obtener un posible descuento!",
+      
+      // --- Contenido del Paso 2 (Subir Documentos - step3.html) ---
       "step3Desc": "Sube los archivos necesarios para que las escuelas puedan evaluar tu perfil. Recuerda que la 'Credential Evaluation' debe estar ya lista.",
       "uploadSectionTitle": "Archivos Requeridos",
       "filePhotoTitle": "Foto de Perfil (Cara visible, fondo claro)",
@@ -133,6 +135,8 @@ const resources = {
       "linkSuccess": "¡Enlace guardado!",
       "uploadError": "Error al subir archivo. Intenta de nuevo.",
       "completionMessage": "Debes subir/guardar todos los archivos y enlaces requeridos.",
+      
+      // --- Contenido del Paso 3 (Completar Perfil - step4.html) ---
       "step4Desc": "Diligencia tu información personal y profesional para que las escuelas puedan conocerte mejor.",
       "personalInfoSection": "Información Personal y Datos Clave",
       "professionalInfoSection": "Experiencia Profesional y Credenciales",
@@ -155,7 +159,7 @@ const resources = {
   },
   en: {
     translation: {
-      // --- General, Navegación y Estados ---
+      // --- General, Navegación y Estados (Dashboard) ---
       "teacherDashboardTitle": "Minga Match | Dashboard",
       "loginTitle": "Login | Minga Match",
       "logoutButton": "Logout",
@@ -255,17 +259,19 @@ const resources = {
       `,
       "agreementCheckboxLabel": "By selecting this box, I confirm that I have read and agree to the terms and conditions of the Minga Match Service Agreement.",
 
-      // --- Content for Step 0 al Paso 3 (Documentos, Perfil, etc. - SE MANTIENE) ---
+      // --- Content for Step 0 (Document Preparation and Translators) ---
       "step0ContinueButton": "I have my documents, continue to Step 1",
       "step2Desc": "Confirm you have the essential documents ready.",
       "step2InfoIntro": "To apply, you must have your original diploma, official color transcript with all semesters and signed, passport, and employment letter(s) confirming you are currently working and have a minimum of 24 months of teaching experience.",
-      "step2SavingsNote": "<strong>Important note:</strong> You will need savings to cover your first month's stay while waiting for your first salary. More information in the <a href='/resources.html' class='text-blue-600 hover:underline'>Resource Center</a>.",
+      "step2SavingsNote": "<strong>Important note:</strong> You will need savings to cover your first month's stay while waiting for your first salary. More information in the <a href='resources.html' class='text-blue-600 hover:underline'>Resource Center</a>.",
       "translationGuideTitle": "Recommended Official Translators Guide",
       "step2TranslationIntro": "Transcripts and diplomas must be translated to obtain the credential evaluation. We recommend these translators to avoid high costs in the U.S.",
       "translatorColombia": "🇨🇴 COLOMBIA - Official Translator<br><strong>TU CENTRAL DE VISAS</strong><br>Contact: Stefani or Anderson<br>WhatsApp: +57 350 619 2000<br>Email: asesorvisas4@tucentraldevisas.com",
       "translatorCostaRica": "🇨🇷 COSTA RICA - Claudia Marín Montero (Official Translator)<br>WhatsApp for quotes: +506 8735 0930<br>Email: clmm2803@yahoo.com",
       "translatorArgentina": "🇦🇷 ARGENTINA - Barbara Vivot Traducciones<br>Contact: Barbara Vivot<br>WhatsApp: +54 9 11 3249 1270<br>Email: mbarbaravivot@gmail.com",
       "mingaDiscountNote": "<strong>Important:</strong> Tell them you are with Minga Teachers to get a possible discount!",
+      
+      // --- Content for Step 2 (Upload Documents - step3.html) ---
       "step3Desc": "Upload the necessary files so schools can evaluate your profile. Remember that the 'Credential Evaluation' must be ready.",
       "uploadSectionTitle": "Required Files",
       "filePhotoTitle": "Profile Photo (Visible face, light background)",
@@ -285,6 +291,8 @@ const resources = {
       "linkSuccess": "Link saved!",
       "uploadError": "Error uploading file. Please try again.",
       "completionMessage": "You must upload/save all required files and links.",
+      
+      // --- Content for Step 3 (Complete Profile - step4.html) ---
       "step4Desc": "Fill out your personal and professional information so that schools can get to know you better.",
       "personalInfoSection": "Personal Information and Key Data",
       "professionalInfoSection": "Professional Experience and Credentials",
