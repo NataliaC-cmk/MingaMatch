@@ -3,132 +3,207 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Buscar Talento | Minga Match</title>
+    <title>Escuela | Buscar Profesores</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-gray-50 min-h-screen">
 
-<header class="bg-slate-800 text-white shadow-md sticky top-0 z-10">
+<header class="bg-slate-800 text-white shadow-md sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl">Minga Match</span>
+                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3" id="logo-img"/>
+                <span class="font-bold text-xl">Minga Match | Escuela</span>
             </div>
-            <div>
-                <a href="/dashboard-school.html" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                    Volver al Dashboard
-                </a>
-            </div>
+            <a href="#" onclick="redirectTo('/dashboard-school.html');" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300 text-sm">
+                Volver al Dashboard
+            </a>
         </div>
     </div>
 </header>
 
-<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900">Búsqueda de Talento</h1>
-        <p class="text-slate-500 mt-1">Encuentra proactivamente a los candidatos ideales para tu institución.</p>
-    </div>
+<main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-slate-900 mb-2">Buscar y Seleccionar Candidatos</h1>
+    <p class="text-slate-600 mb-8">Usa los filtros para encontrar a los docentes que mejor se ajustan a tus vacantes.</p>
 
-    <!-- Filters Section -->
-    <section class="bg-white shadow-lg rounded-xl p-6 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <input id="filter-specialty" type="text" placeholder="Especialidad (Ej: Matemáticas)" class="lg:col-span-2 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            <select id="filter-english" class="block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="">Nivel de Inglés (mín.)</option>
-                <option value="B1">B1</option>
-                <option value="B2">B2</option>
-                <option value="C1">C1</option>
-            </select>
-            <button id="search-btn" class="col-span-full lg:col-span-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Buscar Profesores</button>
-             <button id="reset-btn" class="col-span-full lg:col-span-1 bg-white text-slate-700 border border-slate-300 font-bold py-2 px-4 rounded-lg hover:bg-slate-50 transition">Limpiar</button>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <div class="lg:col-span-1 bg-white p-6 shadow-lg rounded-xl border border-slate-200 h-fit sticky top-20">
+            <h2 class="text-xl font-bold text-slate-800 mb-4 border-b pb-3">Filtros de Búsqueda</h2>
+            
+            <form id="search-form" class="space-y-4">
+                
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-slate-700">Materia de Especialización</label>
+                    <select id="subject" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md bg-white">
+                        <option value="">Todas las Materias</option>
+                        <option value="matematicas">Matemáticas</option>
+                        <option value="ciencias">Ciencias (High School)</option>
+                        <option value="espanol">Lenguaje/Español</option>
+                        <option value="primaria">Educación Primaria</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="min-experience" class="block text-sm font-medium text-slate-700">Experiencia Mínima (Años)</label>
+                    <input type="number" id="min-experience" min="0" placeholder="Ej: 3" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
+                </div>
+
+                <div>
+                    <label for="country" class="block text-sm font-medium text-slate-700">País de Origen</label>
+                    <select id="country" class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md bg-white">
+                        <option value="">Cualquier País</option>
+                        <option value="colombia">Colombia</option>
+                        <option value="mexico">México</option>
+                        <option value="espana">España</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="is-j1-ready" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <label for="is-j1-ready" class="ml-2 text-sm font-medium text-slate-700">Con documentos J-1 Listos</label>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 text-sm mt-4">
+                    Aplicar Filtros
+                </button>
+            </form>
         </div>
-    </section>
 
-    <!-- Results Section -->
-    <section id="results-container" class="space-y-6">
-        <p class="text-slate-500 text-center py-10">Ajusta los filtros y haz clic en "Buscar" para encontrar talento.</p>
-    </section>
+        <div class="lg:col-span-3">
+            <h2 class="text-xl font-bold text-slate-800 mb-4">Resultados de la Búsqueda (<span id="result-count">3</span>)</h2>
+            
+            <div id="teacher-list" class="space-y-6">
+                
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-xl text-blue-700">Prof. María P. Rincón</h3>
+                        <p class="text-sm text-gray-700 mt-1">Especialidad: **Matemáticas Avanzadas** | País: Colombia</p>
+                        <p class="text-sm text-gray-500 mt-2">Experiencia: 12 años | Documentos J-1: Listo</p>
+                        <div class="mt-3 space-x-2">
+                            <a href="#" onclick="alert('Simulación: Redirigiendo a teacher-profile-view.html?id=1');" class="text-blue-600 text-sm font-medium hover:underline">Ver Perfil Completo &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end space-y-2">
+                        <button onclick="selectCandidate('María P. Rincón')" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition text-sm">
+                            Seleccionar / Entrevistar
+                        </button>
+                        <span class="text-xs text-slate-500">Última actividad: Hace 3 días</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-xl text-blue-700">Prof. Juan C. Valdez</h3>
+                        <p class="text-sm text-gray-700 mt-1">Especialidad: **Educación Primaria Bilingüe** | País: México</p>
+                        <p class="text-sm text-gray-500 mt-2">Experiencia: 8 años | Documentos J-1: Pendiente (50%)</p>
+                        <div class="mt-3 space-x-2">
+                            <a href="#" onclick="alert('Simulación: Redirigiendo a teacher-profile-view.html?id=2');" class="text-blue-600 text-sm font-medium hover:underline">Ver Perfil Completo &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end space-y-2">
+                        <button onclick="selectCandidate('Juan C. Valdez')" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition text-sm">
+                            Seleccionar / Entrevistar
+                        </button>
+                        <span class="text-xs text-slate-500">Última actividad: Hace 1 semana</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-xl text-blue-700">Prof. Laura E. Gómez</h3>
+                        <p class="text-sm text-gray-700 mt-1">Especialidad: **Física y Química** | País: España</p>
+                        <p class="text-sm text-gray-500 mt-2">Experiencia: 5 años | Documentos J-1: Listo</p>
+                        <div class="mt-3 space-x-2">
+                            <a href="#" onclick="alert('Simulación: Redirigiendo a teacher-profile-view.html?id=3');" class="text-blue-600 text-sm font-medium hover:underline">Ver Perfil Completo &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end space-y-2">
+                        <button onclick="selectCandidate('Laura E. Gómez')" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition text-sm">
+                            Seleccionar / Entrevistar
+                        </button>
+                        <span class="text-xs text-slate-500">Última actividad: Hace 2 días</span>
+                    </div>
+                </div>
+
+                <p id="no-results-msg" class="text-center text-slate-500 hidden pt-8">No se encontraron profesores que coincidan con los filtros aplicados.</p>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script>
-    // --- Guardia de Sesión (School/Admin) ---
+    // CRÍTICO: Define la ruta base del repositorio
+    const REPO_PATH = '/MingaMatch'; 
+    
+    // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
+    window.redirectTo = function(path) {
+        window.location.href = REPO_PATH + path;
+    };
+
+    // --- Guardia de Sesión ---
     (function guard() {
+        const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
-        if (!localStorage.getItem('token') || (role !== 'school' && role !== 'admin')) {
-            alert('Acceso denegado.');
-            location.href = '/login.html';
+        
+        if (!token || (role !== 'school' && role !== 'admin')) {
+            console.log('Sesión no válida o rol incorrecto. Redirigiendo a login.');
+            window.location.href = REPO_PATH + '/login.html';
         }
     })();
-    const authHeader = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('token') });
 
-    // --- Elementos del DOM ---
-    const resultsContainer = document.getElementById('results-container');
-    const searchBtn = document.getElementById('search-btn');
-    const resetBtn = document.getElementById('reset-btn');
-
-    // --- Lógica de Búsqueda ---
-    async function searchTeachers() {
-        resultsContainer.innerHTML = `<p class="text-slate-500 text-center py-10">Buscando...</p>`;
-
-        const filters = {
-            specialty: document.getElementById('filter-specialty').value,
-            englishLevel: document.getElementById('filter-english').value,
-        };
-
-        const params = new URLSearchParams();
-        if (filters.specialty) params.append('specialty', filters.specialty);
-        if (filters.englishLevel) params.append('englishLevel', filters.englishLevel);
-
-        try {
-            const res = await fetch(`/api/teachers/search?${params.toString()}`, { headers: authHeader() });
-            if (!res.ok) throw new Error('No se pudo realizar la búsqueda');
-            const teachers = await res.json();
-            renderResults(teachers);
-        } catch (error) {
-            console.error('Error en la búsqueda:', error);
-            resultsContainer.innerHTML = `<p class="text-red-600 text-center py-10">Error al cargar los resultados.</p>`;
+    // --- Lógica de Interacción (Mockup) ---
+    window.selectCandidate = function(name) {
+        const confirmed = confirm(`¿Deseas agregar a ${name} a tu lista de candidatos preseleccionados y proponer una entrevista?`);
+        if (confirmed) {
+            alert(`${name} ha sido agregado a la lista de entrevistas. Revisa 'Gestión de Entrevistas'.`);
+            // En un entorno real, aquí se haría una llamada API para añadir al candidato.
         }
-    }
-
-    // --- Renderizado ---
-    function renderResults(teachers) {
-        if (!teachers || teachers.length === 0) {
-            resultsContainer.innerHTML = `<div class="bg-white shadow-lg rounded-xl p-8 text-center text-slate-500">No se encontraron profesores con esos criterios de búsqueda.</div>`;
-            return;
-        }
-
-        resultsContainer.innerHTML = teachers.map(teacher => `
-            <article class="bg-white shadow-lg rounded-xl p-6 flex flex-col sm:flex-row justify-between items-start gap-4">
-                <div class="flex items-center gap-4">
-                    <img src="${teacher.profile.profileImageUrl || 'https://placehold.co/80x80/e2e8f0/475569?text=Perfil'}" alt="Foto de ${teacher.profile.fullName}" class="w-20 h-20 rounded-full object-cover">
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800">${teacher.profile.fullName}</h3>
-                        <p class="text-sm text-slate-500">${teacher.profile.education[0]?.fieldOfStudy || 'Especialidad no definida'}</p>
-                        <p class="text-sm text-slate-500">${teacher.profile.personalInfo?.residenceCountry || 'País no definido'}</p>
-                    </div>
-                </div>
-                <div class="w-full sm:w-auto flex-shrink-0 mt-4 sm:mt-0">
-                    <a href="/teacher-profile-view.html?id=${teacher._id}" target="_blank" class="w-full sm:w-auto inline-block text-center bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Ver Perfil Completo</a>
-                </div>
-            </article>
-        `).join('');
-    }
+    };
     
-    // --- Event Listeners ---
-    searchBtn.addEventListener('click', searchTeachers);
-    resetBtn.addEventListener('click', () => {
-        document.getElementById('filter-specialty').value = '';
-        document.getElementById('filter-english').value = '';
-        resultsContainer.innerHTML = `<p class="text-slate-500 text-center py-10">Ajusta los filtros y haz clic en "Buscar" para encontrar talento.</p>`;
-    });
+    document.addEventListener('DOMContentLoaded', () => {
+        // CRÍTICO: Corrección de la ruta del logo
+        const logo = document.getElementById('logo-img');
+        if (logo) {
+            logo.src = REPO_PATH + '/logo-minga.png';
+        }
 
+        const searchForm = document.getElementById('search-form');
+        const resultCount = document.getElementById('result-count');
+        const teacherList = document.getElementById('teacher-list');
+        const noResultsMsg = document.getElementById('no-results-msg');
+
+        // Lógica de Filtrado (Simulada)
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const subject = document.getElementById('subject').value;
+            const minExperience = document.getElementById('min-experience').value;
+            const country = document.getElementById('country').value;
+            const isJ1Ready = document.getElementById('is-j1-ready').checked;
+
+            // SIMULACIÓN: Mostrar cero resultados si se aplica un filtro estricto
+            if (subject === 'primaria' && isJ1Ready) {
+                teacherList.classList.add('hidden');
+                noResultsMsg.classList.remove('hidden');
+                resultCount.textContent = '0';
+            } else {
+                teacherList.classList.remove('hidden');
+                noResultsMsg.classList.add('hidden');
+                resultCount.textContent = '3'; // Volver a mostrar los 3 mockups
+            }
+        });
+
+        // Si tienes i18n cargado, asegura la traducción (aunque esta vista es solo para schools)
+        if (window.updateContent) {
+            window.updateContent();
+        }
+    });
 </script>
 </body>
 </html>

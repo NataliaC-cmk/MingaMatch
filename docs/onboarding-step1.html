@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="step1Title"></title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
-    <script src="/i18n.js" defer></script> 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Inter', sans-serif; } </style>
+    <script src="i18n.js" defer></script> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
+    </style>
 </head>
 <body class="bg-slate-100">
 
 <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        <div class="flex items-center gap-3"><img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/></div>
-        <a href="/dashboard-teacher.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600" data-i18n="backToDashboard">Volver al Dashboard</a>
+        <div class="flex items-center gap-3"><img src="logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/></div>
+        <a href="#" onclick="window.location.href = REPO_PATH + '/dashboard-teacher.html';" class="text-sm font-semibold text-slate-600 hover:text-blue-600" data-i18n="backToDashboard">Volver al Dashboard</a>
     </div>
 </header>
 
@@ -43,56 +47,38 @@
 </main>
 
 <script>
+    const REPO_PATH = '/MingaMatch'; 
+
     document.addEventListener('i18nextInitialized', () => {
         const token = localStorage.getItem('token');
-        if (!token) { return location.href = '/login.html'; }
+        if (!token) { return window.location.href = REPO_PATH + '/login.html'; }
         const authHeader = () => ({ 'Authorization': `Bearer ${token}` });
+
+        const logo = document.querySelector('header img');
+        if (logo) logo.src = REPO_PATH + '/logo-minga.png';
 
         const checkbox = document.getElementById('agreement-checkbox');
         const saveBtn = document.getElementById('save-btn');
 
-        // Habilitar/Deshabilitar botón basado en el checkbox
         checkbox.addEventListener('input', () => { saveBtn.disabled = !checkbox.checked; });
 
-        // Lógica para guardar el progreso
         saveBtn.addEventListener('click', async () => {
             if (!checkbox.checked) return;
             saveBtn.disabled = true;
             saveBtn.textContent = 'Guardando...';
 
             try {
-                // Marcar el paso 'agreementAccepted' como completado
-                const res = await fetch('/api/teachers/profile/onboarding-status', {
-                    method: 'PUT',
-                    headers: { ...authHeader(), 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ step: 'agreementAccepted' })
-                });
-                if (!res.ok) throw new Error('No se pudo guardar el progreso');
-                window.location.href = '/dashboard-teacher.html';
+                // SIMULACIÓN: Marcar el paso 'agreementAccepted' como completado
+                // const res = await fetch('/api/teachers/profile/onboarding-status', { ... });
+                
+                window.location.href = REPO_PATH + '/dashboard-teacher.html';
             } catch (error) {
                 alert('Hubo un error al guardar. Inténtalo de nuevo.');
                 saveBtn.disabled = false;
                 saveBtn.textContent = i18next.t('saveStepButton');
             }
         });
-
-        // Cargar el estado actual del checkbox desde el perfil del usuario
-        (async function loadStatus() {
-            try {
-                const res = await fetch('/api/teachers/my-profile', { headers: authHeader() });
-                if (!res.ok) throw new Error('Error al cargar perfil');
-                const user = await res.json();
-                
-                if (user.profile?.onboardingStatus?.agreementAccepted) {
-                    checkbox.checked = true;
-                    saveBtn.disabled = false;
-                }
-            } catch (error) { 
-                console.error("Error cargando el estado del acuerdo:", error); 
-            }
-        })();
         
-        // Ejecutar la traducción
         if (window.updateContent) {
             window.updateContent();
         }

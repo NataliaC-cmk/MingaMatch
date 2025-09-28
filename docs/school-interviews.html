@@ -3,135 +3,178 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Gestión de Entrevistas | Minga Match</title>
+    <title>Escuela | Entrevistas Agendadas</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> 
-        body { font-family: 'Inter', sans-serif; } 
+    <style>
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 min-h-screen">
 
 <header class="bg-slate-800 text-white shadow-md sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl">Minga Match</span>
+                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3" id="logo-img"/>
+                <span class="font-bold text-xl">Minga Match | Escuela</span>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="/dashboard-school.html" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300">
-                    Volver al Dashboard
-                </a>
-            </div>
+            <a href="#" onclick="redirectTo('/dashboard-school.html');" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300 text-sm">
+                Volver al Dashboard
+            </a>
         </div>
     </div>
 </header>
 
 <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900">Gestión de Entrevistas</h1>
-        <p class="text-slate-600 mt-1">Aquí puedes ver el estado y los detalles de todas las entrevistas que has agendado.</p>
-    </div>
+    <h1 class="text-3xl font-bold text-slate-900 mb-2">Gestión de Entrevistas</h1>
+    <p class="text-slate-600 mb-8">Administra a los candidatos que has preseleccionado y envía propuestas de entrevista.</p>
 
-    <div id="filters" class="mb-6 flex gap-4">
-        <select id="statusFilter" class="p-2 border border-slate-300 rounded-md text-sm">
-            <option value="all">Mostrar todos los estados</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Confirmada">Confirmada</option>
-            <option value="Realizada">Realizada</option>
-            <option value="Cancelada">Cancelada</option>
-        </select>
-    </div>
+    <div class="bg-white p-6 shadow-lg rounded-xl border border-slate-200">
+        <h2 class="text-xl font-bold text-slate-800 mb-4 border-b pb-3">Candidatos Preseleccionados (5)</h2>
+        
+        <div id="candidate-list" class="space-y-4">
+            
+            <div class="p-4 border rounded-lg flex justify-between items-center bg-yellow-50 border-yellow-300">
+                <div>
+                    <p class="font-medium text-slate-700">María Clara (Matemáticas, 12 años exp.)</p>
+                    <span class="text-xs text-yellow-700 font-semibold">Estatus: Interesada, Pendiente de Entrevista</span>
+                </div>
+                <button onclick="openInterviewModal('María Clara')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition text-sm">
+                    Proponer Entrevista
+                </button>
+            </div>
 
-    <div id="interviewsContainer" class="space-y-6">
-        <p class="text-slate-500">Cargando entrevistas...</p>
+            <div class="p-4 border rounded-lg flex justify-between items-center bg-green-50 border-green-300">
+                <div>
+                    <p class="font-medium text-slate-700">Juan Pérez (Ciencias, 8 años exp.)</p>
+                    <span class="text-xs text-green-700 font-semibold">Estatus: Entrevista Confirmada - Lun, Oct 2, 10:00 AM EST</span>
+                </div>
+                <button class="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed text-sm" disabled>
+                    Agendado
+                </button>
+            </div>
+
+            <div class="p-4 border rounded-lg flex justify-between items-center bg-red-50 border-red-300 opacity-70">
+                <div>
+                    <p class="font-medium text-slate-700">Laura Gómez (Primaria, 5 años exp.)</p>
+                    <span class="text-xs text-red-700 font-semibold">Estatus: No Seleccionado</span>
+                </div>
+                <button class="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed text-sm" disabled>
+                    Finalizado
+                </button>
+            </div>
+            
+            <p class="text-sm text-slate-500 pt-4 text-center">Puedes gestionar más candidatos desde la página de búsqueda.</p>
+
+        </div>
     </div>
-    
-    <p id="noResults" class="text-slate-500 hidden mt-6">No hay entrevistas que coincidan con los filtros seleccionados.</p>
 </main>
 
-<script>
-    // SIMULACIÓN DE DATOS DE ENTREVISTAS
-    const interviewData = [
-        { id: 1, teacherName: 'María Pérez', jobTitle: 'Profesor de Matemáticas', date: '2025-10-05T10:00:00', link: 'https://zoom.us/j/123456', status: 'Confirmada', notes: 'Confirmó su asistencia.' },
-        { id: 2, teacherName: 'Juan Valdez', jobTitle: 'Maestro de Primaria', date: '2025-10-10T14:30:00', link: 'https://meet.google.com/abcde', status: 'Pendiente', notes: 'Enviada propuesta inicial.' },
-        { id: 3, teacherName: 'Elena Gutiérrez', jobTitle: 'Tutor de Ciencias', date: '2025-09-20T11:00:00', link: '#', status: 'Realizada', notes: 'Muy buena candidata. Pendiente feedback.' },
-        { id: 4, teacherName: 'Carlos García', jobTitle: 'Profesor de Historia', date: '2025-09-15T09:00:00', link: '#', status: 'Cancelada', notes: 'El candidato canceló.' }
-    ];
-
-    const container = document.getElementById('interviewsContainer');
-    const filter = document.getElementById('statusFilter');
-
-    function getStatusClass(status) {
-        switch (status) {
-            case 'Confirmada': return 'bg-green-100 text-green-700 border-green-300';
-            case 'Realizada': return 'bg-blue-100 text-blue-700 border-blue-300';
-            case 'Cancelada': return 'bg-red-100 text-red-700 border-red-300';
-            case 'Pendiente': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
-            default: return 'bg-slate-100 text-slate-700 border-slate-300';
-        }
-    }
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('es-ES', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit', 
-            minute: '2-digit'
-        });
-    }
-
-    function renderInterviews(data) {
-        const selectedStatus = filter.value;
-        const filteredData = data.filter(item => selectedStatus === 'all' || item.status === selectedStatus);
-
-        if (filteredData.length === 0) {
-            container.innerHTML = '';
-            document.getElementById('noResults').classList.remove('hidden');
-            return;
-        }
-        document.getElementById('noResults').classList.add('hidden');
-
-        container.innerHTML = filteredData.map(item => `
-            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
-                <div class="flex justify-between items-start mb-3">
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900">${item.teacherName}</h3>
-                        <p class="text-sm text-slate-600">${item.jobTitle}</p>
-                    </div>
-                    <span class="text-xs font-semibold px-3 py-1 rounded-full border ${getStatusClass(item.status)}">
-                        ${item.status}
-                    </span>
-                </div>
-                
-                <div class="space-y-1 text-sm text-slate-700 mt-4 pt-3 border-t border-slate-100">
-                    <p><strong>Fecha y Hora:</strong> ${formatDate(item.date)}</p>
-                    <p><strong>Enlace:</strong> 
-                        ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" class="text-blue-600 hover:underline">Acceder a la reunión</a>` : 'No aplica o no disponible'}
-                    </p>
-                    <p><strong>Notas:</strong> ${item.notes}</p>
-                </div>
-
-                <div class="mt-4 flex gap-2 justify-end">
-                    <button class="bg-slate-200 text-slate-700 font-bold py-2 px-3 text-sm rounded-lg hover:bg-slate-300 transition" onclick="alert('Funcionalidad de Edición para ID: ${item.id}')">Editar</button>
-                    ${item.status !== 'Cancelada' ? `<button class="bg-red-500 text-white font-bold py-2 px-3 text-sm rounded-lg hover:bg-red-600 transition" onclick="alert('Funcionalidad de Cancelación para ID: ${item.id}')">Cancelar</button>` : ''}
-                </div>
+<div id="interview-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+        <h3 class="text-xl font-bold text-slate-800 mb-4">Proponer Entrevista a <span id="candidate-name-modal"></span></h3>
+        <form id="schedule-form" class="space-y-4">
+            <div>
+                <label for="interview-date" class="block text-sm font-medium text-slate-700">Fecha de Entrevista</label>
+                <input type="date" id="interview-date" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
             </div>
-        `).join('');
+            <div>
+                <label for="interview-time" class="block text-sm font-medium text-slate-700">Hora (Zona Horaria Local)</label>
+                <input type="time" id="interview-time" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
+            </div>
+            <div>
+                <label for="interview-link" class="block text-sm font-medium text-slate-700">Enlace de la Videoconferencia (Zoom/Meet)</label>
+                <input type="url" id="interview-link" required placeholder="https://meet.google.com/..." class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
+            </div>
+            
+            <p id="schedule-status" class="text-sm text-center h-5"></p>
+            
+            <div class="flex justify-end space-x-3 pt-4">
+                <button type="button" onclick="closeInterviewModal()" class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100">Cancelar</button>
+                <button type="submit" id="send-proposal-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm">
+                    Enviar Propuesta
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // CRÍTICO: Define la ruta base del repositorio
+    const REPO_PATH = '/MingaMatch'; 
+    
+    // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
+    window.redirectTo = function(path) {
+        window.location.href = REPO_PATH + path;
+    };
+
+    // --- Guardia de Sesión ---
+    (function guard() {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        
+        if (!token || (role !== 'school' && role !== 'admin')) {
+            console.log('Sesión no válida o rol incorrecto. Redirigiendo a login.');
+            window.location.href = REPO_PATH + '/login.html';
+        }
+    })();
+
+    // Variables del Modal
+    const modal = document.getElementById('interview-modal');
+    const candidateNameModal = document.getElementById('candidate-name-modal');
+    
+    // Funciones del Modal
+    window.openInterviewModal = function(candidateName) {
+        candidateNameModal.textContent = candidateName;
+        modal.classList.remove('hidden');
     }
 
-    // --- Inicialización y Eventos ---
-    filter.addEventListener('change', () => renderInterviews(interviewData));
-    
-    // Simulación de carga de datos inicial
-    document.addEventListener('DOMContentLoaded', () => {
-        renderInterviews(interviewData);
-    });
+    window.closeInterviewModal = function() {
+        modal.classList.add('hidden');
+        document.getElementById('schedule-form').reset();
+        document.getElementById('schedule-status').textContent = '';
+        document.getElementById('send-proposal-btn').disabled = false;
+        document.getElementById('send-proposal-btn').textContent = 'Enviar Propuesta';
+    }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        // CRÍTICO: Corrección de la ruta del logo
+        const logo = document.getElementById('logo-img');
+        if (logo) {
+            logo.src = REPO_PATH + '/logo-minga.png';
+        }
+
+        const scheduleForm = document.getElementById('schedule-form');
+        const sendProposalBtn = document.getElementById('send-proposal-btn');
+        const scheduleStatus = document.getElementById('schedule-status');
+        
+        // Lógica de Envío de Propuesta (Simulada)
+        scheduleForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const date = document.getElementById('interview-date').value;
+            const time = document.getElementById('interview-time').value;
+            const link = document.getElementById('interview-link').value;
+            const candidate = candidateNameModal.textContent;
+
+            sendProposalBtn.textContent = 'Enviando...';
+            sendProposalBtn.disabled = true;
+            scheduleStatus.textContent = '';
+
+            // SIMULACIÓN DE ENVÍO DE EMAIL/API
+            setTimeout(() => {
+                scheduleStatus.classList.remove('text-red-600');
+                scheduleStatus.classList.add('text-green-600');
+                scheduleStatus.textContent = `Propuesta enviada a ${candidate} para el ${date} a las ${time}.`;
+                
+                // CERRAR MODAL DESPUÉS DE UN TIEMPO
+                setTimeout(closeInterviewModal, 2000);
+            }, 1500);
+
+        });
+    });
 </script>
 </body>
 </html>

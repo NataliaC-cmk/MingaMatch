@@ -3,128 +3,52 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mis Vacantes Guardadas | Minga Match</title>
+    <title>Mis Favoritos | Minga Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-gray-50 min-h-screen">
 
-<header class="bg-slate-800 text-white shadow-md sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
-                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl">Minga Match</span>
-            </div>
-            <div>
-                <a href="/dashboard-teacher.html" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                    Volver al Dashboard
-                </a>
-            </div>
+<header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <div class="flex items-center gap-3">
+            <img id="logo-img" src="logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/>
+            <span class="text-xl font-bold text-blue-700">Minga Match</span>
         </div>
+        <a href="#" onclick="redirectTo('/dashboard-teacher.html');" class="text-sm font-medium text-slate-600 hover:text-blue-600">
+            &larr; Volver al Dashboard
+        </a>
     </div>
 </header>
 
-<main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900">Mis Vacantes Guardadas (Favoritos)</h1>
-        <p class="text-slate-500 mt-1">Aquí puedes ver las oportunidades que has guardado para postular más tarde.</p>
-    </div>
+<main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-slate-900 mb-4">Vacantes Favoritas</h1>
+    <p class="text-slate-600 mb-8">Guarda las oportunidades que te interesan para aplicar más tarde.</p>
 
-    <section id="favorites-list" class="space-y-6">
-        <p class="text-slate-500 text-center py-10">Cargando tus favoritos...</p>
-    </section>
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+        <p class="text-sm text-slate-500">
+            **MOCKUP**: La lógica para guardar y listar tus vacantes favoritas irá aquí.
+        </p>
+        <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400">
+            <p class="font-semibold text-yellow-800">Recuerda completar tu perfil antes de aplicar a favoritos.</p>
+        </div>
+    </div>
 </main>
 
 <script>
-    // --- Guardia de Sesión (Teacher) ---
-    (function guard() {
-        if (!localStorage.getItem('token') || localStorage.getItem('role') !== 'teacher') {
-            alert('Acceso denegado. Debes iniciar sesión como profesor.');
-            location.href = '/login.html';
+    const REPO_PATH = '/MingaMatch'; 
+    window.redirectTo = function(path) {
+        window.location.href = REPO_PATH + path;
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Corrección de ruta para el logo
+        const logo = document.getElementById('logo-img');
+        if (logo) {
+            logo.src = REPO_PATH + '/logo-minga.png';
         }
-    })();
-    const authHeader = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' });
-
-    // --- Carga y Renderizado ---
-    async function loadFavorites() {
-        const container = document.getElementById('favorites-list');
-        try {
-            const res = await fetch('/api/interests/my', { headers: authHeader() });
-            if (!res.ok) throw new Error('No se pudieron cargar los favoritos');
-            
-            const favorites = await res.json();
-
-            if (!favorites || favorites.length === 0) {
-                container.innerHTML = `<div class="bg-white shadow-lg rounded-xl p-8 text-center text-slate-500">No has guardado ninguna vacante como favorita todavía. <a href="/jobs.html" class="text-blue-600 font-semibold hover:underline">¡Explora las oportunidades!</a></div>`;
-                return;
-            }
-
-            container.innerHTML = favorites.map(item => {
-                const job = item.job;
-                if (!job) return ''; // Omitir si la vacante fue eliminada
-
-                const schoolName = job.school?.profile?.schoolName || 'Escuela Confidencial';
-                const location = job.location ? `${job.location.city}, ${job.location.state}` : 'Ubicación no disponible';
-
-                return `
-                    <article class="bg-white shadow-lg rounded-xl p-6" id="favorite-${item._id}">
-                        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-800">${job.title}</h3>
-                                <p class="text-sm text-slate-500">${schoolName} • ${location}</p>
-                            </div>
-                            <div class="w-full sm:w-auto flex-shrink-0 flex sm:flex-col items-stretch gap-2">
-                                <a href="/jobs.html#job-${job._id}" class="w-full sm:w-auto text-center bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Postular Ahora</a>
-                                <button class="w-full sm:w-auto bg-slate-100 text-slate-600 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition" onclick="removeFavorite('${item._id}', '${job._id}')">Quitar</button>
-                            </div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
-
-        } catch (error) {
-            console.error('Error loading favorites:', error);
-            container.innerHTML = `<p class="text-red-600 text-center py-10">Hubo un error al cargar tus favoritos.</p>`;
-        }
-    }
-
-    // --- Lógica de Acciones ---
-    async function removeFavorite(interestId, jobId) {
-        if (!confirm('¿Seguro que quieres quitar esta vacante de tus favoritos?')) return;
-        
-        try {
-            const res = await fetch('/api/interests/toggle', {
-                method: 'POST',
-                headers: authHeader(),
-                body: JSON.stringify({ jobId })
-            });
-
-            if (!res.ok) throw new Error('No se pudo quitar de favoritos');
-
-            // Eliminación visual instantánea
-            const card = document.getElementById(`favorite-${interestId}`);
-            if (card) {
-                card.style.transition = 'opacity 0.5s, transform 0.5s';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => card.remove(), 500);
-            }
-            
-        } catch (error) {
-            console.error('Error removing favorite:', error);
-            alert('No se pudo quitar la vacante de favoritos.');
-        }
-    }
-
-    // --- Init ---
-    document.addEventListener('DOMContentLoaded', loadFavorites);
+    });
 </script>
-
 </body>
 </html>

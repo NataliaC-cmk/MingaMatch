@@ -1,120 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenida - Minga Match</title>
-    
-    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
-    <script src="/i18n.js" defer></script> 
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Minga Match | Iniciando Onboarding</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <script>
+        const REPO_PATH = '/MingaMatch'; 
+        // Redirige al Paso 1: Acepta Términos y Condiciones
+        window.location.replace(REPO_PATH + '/onboarding-step1.html');
+    </script>
 </head>
-<body class="bg-slate-100">
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
 
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <img src="/logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/>
-                    <span class="font-semibold text-lg text-slate-800">Minga Match</span>
-                </div>
-                <div class="flex items-center gap-4">
-                     <div class="relative">
-                        <select id="lang-selector" class="block appearance-none bg-slate-100 border border-slate-200 text-slate-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-slate-500 text-sm">
-                            <option value="es">Español</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-                    <button id="logout" class="text-sm font-medium text-red-600 hover:text-red-800" data-i18n="logoutButton"></button>
-                </div>
-            </div>
+    <div class="text-center p-10 bg-white rounded-xl shadow-lg border border-slate-200">
+        <h1 class="text-3xl font-bold text-slate-800 mb-4">Iniciando Proceso...</h1>
+        <p class="text-slate-600">Serás redirigido automáticamente a la página de Términos y Condiciones.</p>
+        <div class="mt-6">
+            <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
         </div>
-    </header>
-
-    <main class="max-w-4xl mx-auto py-12 px-4">
-        <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl">
-            <div class="text-center">
-                <h1 class="text-4xl font-black text-slate-900" data-i18n="welcomeTitle"></h1>
-                <p class="mt-4 text-lg font-semibold text-blue-600 bg-blue-100 py-3 px-4 rounded-lg inline-block" data-i18n="welcomeFreeMessage"></p>
-                <p class="mt-6 text-slate-600 max-w-2xl mx-auto" data-i18n="mingaDescription"></p>
-            </div>
-
-            <hr class="my-8">
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                <div>
-                    <h2 class="text-xl font-bold text-slate-800" data-i18n="usefulLinks"></h2>
-                    <div class="mt-4 space-y-2">
-                        <a href="https://www.mingahouse.org/teach-usa.html" target="_blank" class="text-blue-600 hover:underline flex items-center gap-2">
-                            <span data-i18n="infoTeachUSA"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                        </a>
-                        <a href="https://www.mingahouse.org/teachusa-testimonials.html" target="_blank" class="text-blue-600 hover:underline flex items-center gap-2">
-                             <span data-i18n="testimonials"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="text-xl font-bold text-slate-800" data-i18n="sponsorsTitle"></h2>
-                    <p class="mt-4 text-slate-600" data-i18n="sponsorsText"></p>
-                </div>
-                 <div>
-                    <h2 class="text-xl font-bold text-slate-800" data-i18n="salariesTitle"></h2>
-                    <p class="mt-4 text-slate-600" data-i18n="salariesText"></p>
-                </div>
-            </div>
-
-            <hr class="my-8">
-            
-            <div class="text-center">
-                 <h2 class="text-2xl font-bold text-slate-800" data-i18n="agreementTitle"></h2>
-            </div>
-            
-            <div class="mt-6 space-y-4">
-                <div class="flex items-start">
-                    <input id="agreement-checkbox" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mt-1">
-                    <label for="agreement-checkbox" class="ml-3 text-md text-slate-700" data-i18n="agreementCheckboxLabel"></label>
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button id="continue-btn" disabled class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 disabled:bg-slate-300 disabled:cursor-not-allowed w-full sm:w-auto">
-                        <span data-i18n="acceptAndContinueButton"></span>
-                    </button>
-                </div>
-            </div>
-        </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const agreementCheckbox = document.getElementById('agreement-checkbox');
-            const continueBtn = document.getElementById('continue-btn');
-            const logoutBtn = document.getElementById('logout');
-
-            agreementCheckbox.addEventListener('input', () => {
-                continueBtn.disabled = !agreementCheckbox.checked;
-            });
-
-            continueBtn.addEventListener('click', () => {
-                if (agreementCheckbox.checked) {
-                    console.log('Acuerdo aceptado por el usuario.');
-                    // Aquí habría una llamada a la API para guardar este estado
-                    // fetch('/api/teachers/accept-agreement', { method: 'POST', headers: authHeader() });
-                    window.location.href = '/onboarding-step0.html';
-                }
-            });
-
-            logoutBtn.addEventListener('click', () => {
-                localStorage.clear();
-                window.location.href = '/login.html';
-            });
-        });
-    </script>
 </body>
 </html>

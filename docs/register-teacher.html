@@ -1,139 +1,100 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Registro de Docente | Minga Match</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="registerTeacherTitle"></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="i18n.js" defer></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
 
-<div class="flex items-center justify-center min-h-screen px-4 py-8">
-    <div class="w-full max-w-2xl">
-        <div class="text-center mb-8">
-            <img src="logo-minga.png" alt="Minga Match Logo" class="h-12 w-auto mx-auto mb-4"/>
-            <h1 class="text-3xl font-bold text-slate-900">Crea tu Perfil de Docente</h1>
-            <p class="text-slate-500 mt-2">Únete a nuestra comunidad y conecta con tu próxima gran oportunidad.</p>
-        </div>
+<div class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
+    <div class="text-center">
+        <img class="mx-auto h-12 w-auto" src="logo-minga.png" alt="Minga Match Logo" />
+        <h2 class="mt-6 text-3xl font-extrabold text-gray-900" data-i18n="registerTeacherHeader"></h2>
+        <p class="mt-2 text-sm text-gray-600">
+            <span data-i18n="alreadyHaveAccount"></span> 
+            <a href="#" onclick="window.location.href = REPO_PATH + '/login.html';" class="font-medium text-blue-600 hover:text-blue-500" data-i18n="loginLink"></a>
+        </p>
+    </div>
 
-        <div class="bg-white shadow-xl rounded-2xl p-8">
-            <form id="registerForm" class="space-y-8">
-                
-                <!-- Section 1: Account Info -->
-                <div>
-                    <h2 class="text-lg font-semibold text-slate-800 border-b border-slate-200 pb-3">1. Datos de tu Cuenta</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                        <div>
-                            <label for="fullName" class="block text-sm font-medium text-slate-700">Nombre Completo</label>
-                            <input type="text" id="fullName" name="fullName" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-slate-700">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-slate-700">Contraseña</label>
-                            <input type="password" id="password" name="password" required minlength="6" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="passwordConfirm" class="block text-sm font-medium text-slate-700">Confirmar Contraseña</label>
-                            <input type="password" id="passwordConfirm" name="passwordConfirm" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6 border-t border-slate-200">
-                    <button type="submit" id="submit-button"
-                            class="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-slate-400">
-                        <span id="button-text">Crear Mi Cuenta</span>
-                        <svg id="spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </form>
-
-            <div id="message-container" class="mt-4 text-center text-sm"></div>
-
-            <div class="text-center mt-6">
-                <p class="text-sm text-slate-600">
-                    ¿Ya tienes una cuenta? 
-                    <a href="/login.html" class="font-medium text-blue-600 hover:text-blue-500 hover:underline">
-                        Inicia sesión aquí
-                    </a>
-                </p>
+    <form class="mt-8 space-y-6" id="register-form">
+        <div class="rounded-md shadow-sm -space-y-px">
+            <div>
+                <label for="teacher-email" class="sr-only" data-i18n="emailLabel"></label>
+                <input id="teacher-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="emailPlaceholder">
+            </div>
+            <div>
+                <label for="teacher-password" class="sr-only" data-i18n="passwordLabel"></label>
+                <input id="teacher-password" name="password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="passwordPlaceholder">
+            </div>
+            <div>
+                <label for="confirm-password" class="sr-only" data-i18n="confirmPasswordLabel"></label>
+                <input id="confirm-password" name="confirm-password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" data-i18n-placeholder="confirmPasswordPlaceholder">
             </div>
         </div>
-    </div>
+
+        <p id="error-message" class="text-red-500 text-sm hidden"></p>
+
+        <div>
+            <button type="submit" id="register-btn" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <span data-i18n="registerButton"></span>
+            </button>
+        </div>
+    </form>
 </div>
 
 <script>
-    const form = document.getElementById('registerForm');
-    const submitButton = document.getElementById('submit-button');
-    const buttonText = document.getElementById('button-text');
-    const spinner = document.getElementById('spinner');
-    const messageContainer = document.getElementById('message-container');
+    const REPO_PATH = '/MingaMatch'; 
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const password = form.password.value;
-        const passwordConfirm = form.passwordConfirm.value;
+    document.addEventListener('i18nextInitialized', () => {
+        // Corrección de ruta para imágenes del header
+        const logo = document.querySelector('.h-12');
+        if (logo) logo.src = REPO_PATH + '/logo-minga.png';
 
-        if (password !== passwordConfirm) {
-            messageContainer.innerHTML = `<div class="bg-red-100 border border-red-300 text-red-800 text-sm rounded-lg p-3">Las contraseñas no coinciden.</div>`;
-            return;
-        }
+        const form = document.getElementById('register-form');
+        const registerBtn = document.getElementById('register-btn');
+        const errorMessage = document.getElementById('error-message');
 
-        submitButton.disabled = true;
-        buttonText.textContent = 'Creando cuenta...';
-        spinner.classList.remove('hidden');
-        messageContainer.innerHTML = '';
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMessage.classList.add('hidden');
+            registerBtn.textContent = 'Registrando...';
+            registerBtn.disabled = true;
 
-        const formData = new FormData(form);
-        const data = {
-            email: formData.get('email'),
-            password: formData.get('password'),
-            profile: {
-                fullName: formData.get('fullName'),
-            }
-        };
+            const password = document.getElementById('teacher-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
 
-        try {
-            const res = await fetch('/api/auth/register-teacher', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-
-            const result = await res.json();
-            
-            if (!res.ok) {
-                throw new Error(result.message || 'No se pudo completar el registro.');
+            if (password !== confirmPassword) {
+                errorMessage.textContent = i18next.t('passwordMismatch');
+                errorMessage.classList.remove('hidden');
+                registerBtn.textContent = i18next.t('registerButton');
+                registerBtn.disabled = false;
+                return;
             }
 
-            messageContainer.innerHTML = `
-                <div class="bg-green-100 border border-green-300 text-green-800 text-sm rounded-lg p-3">
-                    <strong>¡Registro exitoso!</strong><br>
-                    Serás redirigido para iniciar sesión.
-                </div>
-            `;
-            form.reset();
-            setTimeout(() => {
-                window.location.href = '/login.html';
-            }, 2000);
+            try {
+                // SIMULACIÓN: Registro exitoso
+                alert(i18next.t('registrationSuccess'));
+                window.location.href = REPO_PATH + '/login.html'; 
 
-        } catch (error) {
-            messageContainer.innerHTML = `<div class="bg-red-100 border border-red-300 text-red-800 text-sm rounded-lg p-3">${error.message}</div>`;
-            submitButton.disabled = false;
-            buttonText.textContent = 'Crear Mi Cuenta';
-            spinner.classList.add('hidden');
+            } catch (error) {
+                errorMessage.textContent = error.message || i18next.t('registrationError');
+                errorMessage.classList.remove('hidden');
+            } finally {
+                registerBtn.textContent = i18next.t('registerButton');
+                registerBtn.disabled = false;
+            }
+        });
+        
+        if (window.updateContent) {
+            window.updateContent();
         }
     });
 </script>

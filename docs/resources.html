@@ -3,152 +3,152 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Centro de Recursos | Minga Match</title>
+    <title>Recursos y Guías | Minga Match</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js" defer></script>
+    <script src="i18n.js" defer></script> 
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .resource-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .resource-card:hover { transform: translateY(-5px); }
-        /* Estilo para los filtros */
-        .filter-btn {
-             padding: 0.5rem 1.5rem;
-             border-radius: 9999px;
-             font-weight: 600;
-             transition: all 0.2s ease;
-             background-color: #ffffff;
-             color: #334155;
-             border: 1px solid #cbd5e1;
-         }
-         .filter-btn:hover {
-             background-color: #f1f5f9;
-         }
-         .filter-btn.active {
-             background-color: #2563eb;
-             color: #ffffff;
-             border-color: #2563eb;
-         }
+        .tab-btn.active { 
+            border-bottom: 2px solid #3b82f6; /* blue-600 */
+            color: #3b82f6; /* blue-600 */
+        }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-gray-50 min-h-screen">
 
-<header class="bg-slate-800 text-white shadow-md sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
-                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl">Minga Match</span>
+    <header class="bg-white shadow-md sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center gap-3">
+                <img id="logo-img" src="logo-minga.png" alt="Minga Match Logo" class="h-10 w-auto"/>
             </div>
-            <div>
-                <a id="dashboard-link" href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                    Volver al Dashboard
+            <nav class="flex items-center gap-6">
+                <a href="#" id="back-to-dashboard-link" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">
+                    &larr; Volver al Dashboard
                 </a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button id="logout-button" class="text-sm font-medium text-red-600 hover:text-red-800">Cerrar Sesión</button>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-slate-900">Centro de Recursos</h1>
-        <p class="text-slate-500 mt-2 max-w-2xl mx-auto">Encuentra guías, documentos y enlaces a webinars para potenciar tu carrera profesional.</p>
-    </div>
-    
-    <div id="filterContainer" class="flex justify-center flex-wrap gap-2 md:gap-4 mb-8">
-        <button class="filter-btn active" data-category="Todos">Todos</button>
-        <button class="filter-btn" data-category="Documentos">Documentos</button>
-        <button class="filter-btn" data-category="Guías">Guías</button>
-        <button class="filter-btn" data-category="Webinars">Webinars</button>
-        <button class="filter-btn" data-category="Enlaces Útiles">Enlaces Útiles</button>
-    </div>
-
-    <section id="resourceList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <p class="text-slate-500 col-span-full text-center py-10">Cargando recursos...</p>
-    </section>
-</main>
-
-<script>
-    // --- Data Mockup (Usamos los mismos datos simulados que el Admin) ---
-    // En un sistema real, esta data vendría de la API /api/resources
-    const mockResourcesData = [
-        { id: 1, title: 'Guía de Homologación SPANTRAN', description: 'Instrucciones paso a paso para la evaluación de credenciales.', url: 'https://spantran.com/...', category: 'Guías', thumbnailUrl: 'https://placehold.co/400x225/2563eb/ffffff?text=Gu%C3%ADa+SPANTRAN' },
-        { id: 2, title: 'Checklist de Documentos J-1', description: 'Lista completa de documentos esenciales antes de la entrevista consular.', url: '/uploads/checklist.pdf', category: 'Documentos', thumbnailUrl: 'https://placehold.co/400x225/22c55e/ffffff?text=PDF+Checklist' },
-        { id: 3, title: 'Webinar: Preparación Financiera', description: 'Video sobre el ahorro de los $5000 USD recomendados.', url: 'https://youtube.com/minga-finanzas', category: 'Webinars', thumbnailUrl: 'https://placehold.co/400x225/f97316/ffffff?text=Webinar+Ahorros' },
-        { id: 4, title: 'Licencia de Enseñanza de Illinois', description: 'Requisitos y pasos para obtener la licencia docente en Illinois.', url: 'https://isbe.net/illinois-license', category: 'Enlaces Útiles', thumbnailUrl: 'https://placehold.co/400x225/a855f7/ffffff?text=IL+License' }
-    ];
-
-    // --- Guardia de sesión y Helpers ---
-    (function guard() {
-        const token = localStorage.getItem('token');
-        const role = localStorage.getItem('role');
-        const dashboardLink = document.getElementById('dashboard-link');
-
-        if (!token) {
-            // Si no hay sesión, redirigir
-             location.href = '/login.html'; 
-             return;
-        }
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Centro de Recursos y Documentos</h1>
+        <p class="text-gray-600 mb-8">Encuentra guías, *checklists* y documentos esenciales para tu proceso.</p>
         
-        // Define el enlace de retorno según el rol
-        if(role === 'teacher') dashboardLink.href = '/dashboard-teacher.html';
-        else if(role === 'school') dashboardLink.href = '/dashboard-school.html';
-        else if(role === 'admin') dashboardLink.href = '/admin-dashboard.html';
-        else dashboardLink.href = '/login.html'; // Fallback seguro
-    })();
+        <div class="mb-6 border-b border-gray-200">
+            <nav class="flex space-x-4" id="resourceTabs">
+                <button data-target="teacher-resources" class="tab-btn active px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600 hover:text-blue-700 transition">Para Profesores (J-1)</button>
+                <button data-target="school-resources" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-blue-600 transition">Para Escuelas</button>
+            </nav>
+        </div>
 
-    const resourceList = document.getElementById('resourceList');
-    const filterContainer = document.getElementById('filterContainer');
-
-    let allResources = [];
-
-    // --- Renderizado ---
-    function renderResources(category = 'Todos') {
-        const filtered = category === 'Todos' 
-            ? allResources 
-            : allResources.filter(r => r.category === category);
-        
-        if (filtered.length === 0) {
-            resourceList.innerHTML = `<p class="text-slate-500 col-span-full text-center py-10">No hay recursos disponibles en esta categoría.</p>`;
-            return;
-        }
-
-        resourceList.innerHTML = filtered.map(r => `
-            <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="resource-card block bg-white shadow-lg rounded-xl overflow-hidden border border-slate-100">
-                <div class="aspect-w-16 aspect-h-9">
-                    <img src="${r.thumbnailUrl || 'https://placehold.co/400x225/e2e8f0/475569?text=Recurso'}" alt="${r.title}" class="w-full h-40 object-cover">
+        <section id="teacher-resources" class="tab-content bg-white shadow-lg rounded-xl p-6 border border-slate-200 space-y-4">
+            <h2 class="text-xl font-bold text-slate-800">Documentación J-1 y Onboarding</h2>
+            <div class="flex justify-between items-center p-3 border border-gray-100 rounded-lg bg-blue-50">
+                <div>
+                    <p class="font-medium text-slate-700">Guía Completa del Proceso de Visa J-1</p>
+                    <span class="text-xs text-blue-600">Categoría: Visa | Publicado: Ago 2025</span>
                 </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="inline-block px-3 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full self-start">${r.category}</span>
-                    <h3 class="font-bold text-slate-800 mt-2">${r.title}</h3>
-                    <p class="text-sm text-slate-600 mt-1 flex-grow">${r.description}</p>
+                <a href="#" target="_blank" class="bg-blue-500 text-white py-1 px-3 rounded text-sm hover:bg-blue-600 transition">Descargar (PDF)</a>
+            </div>
+            <div class="flex justify-between items-center p-3 border border-gray-100 rounded-lg bg-blue-50">
+                <div>
+                    <p class="font-medium text-slate-700">Checklist: Evaluación de Credenciales</p>
+                    <span class="text-xs text-blue-600">Categoría: Onboarding | Publicado: Sep 2025</span>
                 </div>
-            </a>
-        `).join('');
-    }
+                <a href="#" target="_blank" class="bg-blue-500 text-white py-1 px-3 rounded text-sm hover:bg-blue-600 transition">Descargar (PDF)</a>
+            </div>
+        </section>
 
-    // --- Carga de Datos (Usando Mock Data del Admin) ---
-    async function loadInitialResources() {
-        // En un sistema real, esta data se cargaría desde la API de recursos
-        allResources = mockResourcesData; 
+        <section id="school-resources" class="tab-content bg-white shadow-lg rounded-xl p-6 border border-slate-200 space-y-4 hidden">
+            <h2 class="text-xl font-bold text-slate-800">Guías de Contratación y Match</h2>
+            <div class="flex justify-between items-center p-3 border border-gray-100 rounded-lg bg-green-50">
+                <div>
+                    <p class="font-medium text-slate-700">Manual de Entrevistas Efectivas</p>
+                    <span class="text-xs text-green-600">Categoría: Contratación | Publicado: Jun 2025</span>
+                </div>
+                <a href="#" target="_blank" class="bg-green-500 text-white py-1 px-3 rounded text-sm hover:bg-green-600 transition">Descargar (DOC)</a>
+            </div>
+            <div class="flex justify-between items-center p-3 border border-gray-100 rounded-lg bg-green-50">
+                <div>
+                    <p class="font-medium text-slate-700">Guía de Patrocinio J-1 para Escuelas</p>
+                    <span class="text-xs text-green-600">Categoría: Legal | Publicado: Jul 2025</span>
+                </div>
+                <a href="#" target="_blank" class="bg-green-500 text-white py-1 px-3 rounded text-sm hover:bg-green-600 transition">Descargar (PDF)</a>
+            </div>
+            <p class="text-sm text-slate-500 pt-2">Si necesitas un recurso específico, contacta a tu representante Minga Match.</p>
+        </section>
+    </main>
+
+    <script>
+        // CRÍTICO: Define la ruta base del repositorio
+        const REPO_PATH = '/MingaMatch'; 
         
-        // Simulación: Filtrar categorías únicas y actualizar botones de filtro si es necesario
-        // Aunque estamos usando data fija, esto asegura que el renderizado inicial funcione.
-        renderResources();
-    }
+        // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
+        window.redirectTo = function(path) {
+            window.location.href = REPO_PATH + path;
+        };
+        
+        // --- Lógica de Inicialización y Eventos ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const role = localStorage.getItem('role');
+            const dashboardLink = document.getElementById('back-to-dashboard-link');
+            const logo = document.getElementById('logo-img');
 
-    // --- Manejo de Filtros ---
-    filterContainer.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            renderResources(e.target.dataset.category);
-        }
-    });
+            // 1. Corrección de la ruta del logo
+            if (logo) {
+                logo.src = REPO_PATH + '/logo-minga.png';
+            }
+            
+            // 2. Determinar la ruta de regreso al Dashboard
+            if (role === 'school') {
+                dashboardLink.setAttribute('onclick', `redirectTo('/dashboard-school.html');`);
+            } else if (role === 'teacher') {
+                dashboardLink.setAttribute('onclick', `redirectTo('/dashboard-teacher.html');`);
+            } else if (role === 'admin') {
+                dashboardLink.setAttribute('onclick', `redirectTo('/admin-dashboard.html');`);
+            } else {
+                // Si no hay rol, redirigir al inicio o login si intentan descargar algo
+                dashboardLink.setAttribute('onclick', `redirectTo('/index.html');`);
+                dashboardLink.textContent = 'Página Principal';
+            }
 
-    // --- Init ---
-    document.addEventListener('DOMContentLoaded', loadInitialResources);
-</script>
+            // 3. Lógica de Pestañas (Reutilizable)
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+
+                    // Ocultar todos los contenidos y desactivar botones
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    tabBtns.forEach(btn => btn.classList.remove('active', 'border-blue-600', 'text-blue-600'));
+                    tabBtns.forEach(btn => btn.classList.add('text-gray-500'));
+
+                    // Mostrar el contenido objetivo y activar el botón
+                    document.getElementById(targetId).classList.remove('hidden');
+                    button.classList.add('active', 'border-blue-600', 'text-blue-600');
+                    button.classList.remove('text-gray-500');
+                });
+            });
+
+            // 4. Lógica de Logout
+            document.getElementById('logout-button').addEventListener('click', () => { 
+                localStorage.clear(); 
+                window.location.href = REPO_PATH + '/index.html'; // Redirigir al inicio
+            });
+
+             // 5. Si tienes i18n cargado, asegura la traducción
+            if (window.updateContent) {
+                window.updateContent();
+            }
+        });
+    </script>
 </body>
 </html>

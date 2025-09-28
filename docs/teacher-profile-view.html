@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title id="profileTitle">Perfil del Profesor | Minga Match</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -18,9 +19,8 @@
             border: 1px solid #cbd5e1;
             font-size: 12px;
             text-align: center;
-            line-height: 1.2;
         }
-        /* Style to hide the element completely upon error */
+        /* Estilo para ocultar la imagen rota */
         .hidden-on-error { display: none !important; }
     </style>
 </head>
@@ -30,11 +30,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <img src="/logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3"/>
-                <span class="font-bold text-xl">Minga Match | Admin View</span>
+                <img src="logo-minga.png" alt="Minga Match Logo" class="h-8 w-auto mr-3" id="logo-img"/>
+                <span class="font-bold text-xl">Minga Match</span>
             </div>
             <div class="flex items-center gap-4">
-                <a href="/admin-dashboard.html" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300">
+                <a href="#" onclick="redirectTo('/admin-dashboard.html');" class="bg-white text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 transition duration-300">
                     Volver al Dashboard
                 </a>
             </div>
@@ -44,7 +44,7 @@
 
 <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold text-slate-900 mb-2">Detalles del Perfil</h1>
-    <p class="text-slate-600 mb-8">Información completa ingresada por el profesor.</p>
+    <p class="text-slate-600 mb-8">Información completa ingresada por el profesor (Solo lectura).</p>
 
     <div id="profileContainer" class="bg-white shadow-xl rounded-2xl p-8 space-y-8">
         <div id="loading" class="text-center py-10 text-slate-500">Cargando perfil...</div>
@@ -53,7 +53,15 @@
 </main>
 
 <script>
-    // --- Data Mockup ---
+    // CRÍTICO: Define la ruta base del repositorio
+    const REPO_PATH = '/MingaMatch'; 
+
+    // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
+    window.redirectTo = function(path) {
+        window.location.href = REPO_PATH + path;
+    };
+
+    // --- Data Mockup (Simulando la respuesta detallada del API para un profesor) ---
     const mockProfileData = {
         fullName: "María Clara Feliciano",
         email: "maria.clara@minga.com",
@@ -71,18 +79,19 @@
         currentTasks: "Teaching LANGUAGE ARTS, SOCIAL STUDIES, RELIGION, HEALTH SCIENCE.",
         totalMonthsCurrentJob: 108,
         prevPosition: "English & Literature Teacher High School Students (2009-2015)",
-        credentialStatus: "NO",
+        credentialStatus: "NO", 
         
-        // ** RUTA DE IMAGEN SIMULADA (ASUMIMOS QUE ES profile_maria.jpg.jpg O LA QUE SEA NECESARIA) **
-        // Utilice la ruta que realmente funciona en su carpeta 'uploads'.
-        photoUrl: '/uploads/profile_maria.jpg.jpg', // Usando la doble extensión que mostraste previamente como ejemplo
+        // ** Rutas de Archivos Simulado **
+        photoUrl: '/uploads/profile_maria.jpg', // Ruta simulada
         videoUrl: 'https://www.youtube.com/embed/simulated-video-id',
     };
 
     // --- Funciones de Renderizado ---
 
     function renderProfile(profile) {
-        document.getElementById('loading').remove(); 
+        const loadingEl = document.getElementById('loading');
+        if (loadingEl) loadingEl.remove();
+
         document.getElementById('profileTitle').textContent = `Perfil de ${profile.fullName} | Minga Match`;
         
         const container = document.getElementById('profileContainer');
@@ -95,7 +104,7 @@
                 <div class="text-right">
                     <p class="text-sm font-medium">Contacto:</p>
                     <a href="mailto:${profile.email}" class="text-slate-700 hover:text-slate-900 block">${profile.email}</a>
-                    <p class="text-slate-700">${profile.phone}</p>
+                    <a href="https://wa.me/${profile.phone.replace(/[^0-9]/g, '')}" target="_blank" class="text-green-600 hover:text-green-800 block">${profile.phone} (WhatsApp)</a>
                 </div>
             </div>
 
@@ -133,18 +142,16 @@
             <section>
                 <h3 class="text-xl font-bold text-slate-800 border-b pb-2 mb-4">4. Material de Presentación</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
                     <div>
                         <p class="font-bold mb-2">Foto de Perfil</p>
-                        <div id="photoWrapper" class="w-32 h-32 relative">
-                            <img src="${profile.photoUrl}" 
-                                 onerror="this.classList.add('hidden-on-error'); document.getElementById('photoPlaceholder').classList.remove('hidden-on-error');"
+                        <div class="w-32 h-32 relative">
+                            <img id="profile-photo" src="${REPO_PATH + profile.photoUrl}" 
+                                 onerror="this.outerHTML='<div class=\\"w-32 h-32 rounded-lg shadow-md img-placeholder\\">FOTO NO DISPONIBLE</div>'" 
                                  alt="Foto de perfil del profesor" class="w-full h-full object-cover rounded-lg shadow-md border">
-                            
-                            <div id="photoPlaceholder" class="w-full h-full rounded-lg shadow-md img-placeholder hidden-on-error absolute top-0 left-0">
-                                FOTO NO DISPONIBLE
-                            </div>
                         </div>
                     </div>
+
                     <div>
                         <p class="font-bold mb-2">Video de Presentación</p>
                         <div class="relative pt-[56.25%]"> <iframe 
@@ -160,9 +167,15 @@
         `;
     }
 
-    // --- Inicialización ---
+    // --- Inicialización y Lógica ---
 
     document.addEventListener('DOMContentLoaded', () => {
+        // CRÍTICO: Corrección de la ruta del logo
+        const logo = document.getElementById('logo-img');
+        if (logo) {
+            logo.src = REPO_PATH + '/logo-minga.png';
+        }
+        
         const urlParams = new URLSearchParams(window.location.search);
         const teacherId = urlParams.get('id');
 
@@ -171,6 +184,12 @@
             return;
         }
 
+        // 2. Determinar la ruta de regreso (Admin o Escuela)
+        const role = localStorage.getItem('role');
+        const dashboardLink = (role === 'admin') ? '/admin-dashboard.html' : '/dashboard-school.html';
+        document.querySelector('header a').setAttribute('onclick', `redirectTo('${dashboardLink}');`);
+
+        // Simular la carga de datos
         renderProfile(mockProfileData); 
     });
 </script>

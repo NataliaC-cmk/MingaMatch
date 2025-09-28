@@ -28,7 +28,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden border border-slate-200">
             
             <div class="hidden md:flex flex-col items-center justify-center p-12 bg-gradient-to-br from-blue-500 to-blue-700 text-white text-center">
-                <img src="logo-minga.png" alt="Minga Match Logo" class="h-24 w-auto mb-6"/>
+                <img src="/MingaMatch/logo-minga.png" alt="Minga Match Logo" class="h-24 w-auto mb-6"/>
                 <h1 class="text-4xl font-black" data-i18n="loginTitle"></h1>
                 <p class="mt-2 text-xl font-medium text-blue-200" data-i18n="loginSubtitle">Detección automática de rol</p>
                 <p class="mt-4 text-sm text-blue-100">Usa 'teacher', 'school' o 'admin' en tu email para probar.</p>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="md:hidden text-center mb-6">
-                    <img src="logo-minga.png" alt="Minga Match Logo" class="h-16 w-auto mx-auto mb-4"/>
+                    <img src="/MingaMatch/logo-minga.png" alt="Minga Match Logo" class="h-16 w-auto mx-auto mb-4"/>
                     <h1 class="text-3xl font-black" data-i18n="loginTitle"></h1>
                     <p class="mt-1 text-lg text-slate-500" data-i18n="loginSubtitle">Bienvenido(a) de nuevo.</p>
                 </div>
@@ -83,12 +83,20 @@
         // Define la ruta base del repositorio (CRÍTICO para GitHub Pages)
         const REPO_PATH = '/MingaMatch'; 
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Asume que i18n.js ya se cargó y la traducción se inicializó
+        document.addEventListener('DOMContentLoaded', () => {
+            // Re-ejecutar la traducción (si i18n ya está cargado)
             if (window.updateContent) {
                  window.updateContent();
             }
 
+            // Selecciona todos los enlaces internos simples y les añade el prefijo REPO_PATH
+            document.querySelectorAll('a[href]').forEach(link => {
+                let href = link.getAttribute('href');
+                if (href && !href.startsWith('http') && !href.startsWith(REPO_PATH) && href.includes('.')) {
+                    link.setAttribute('href', REPO_PATH + '/' + href);
+                }
+            });
+            
             const loginForm = document.getElementById('login-form');
             const errorElement = document.getElementById('login-error');
             
@@ -97,7 +105,6 @@
                 e.preventDefault();
                 errorElement.textContent = ''; 
                 const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
                 const loginBtn = loginForm.querySelector('button[type="submit"]');
 
                 loginBtn.disabled = true;
@@ -110,10 +117,9 @@
                                      (email.includes('admin') || email.includes('admin')) ? 'admin' : 'none';
 
                     if (userRole === 'none') {
-                        throw new Error('Email o contraseña incorrectos.');
+                        throw new Error(i18next.t('invalidCredentials') || 'Email o contraseña incorrectos.');
                     }
                     
-                    // Setear token y rol simulados
                     localStorage.setItem('token', 'fake-token-123');
                     localStorage.setItem('role', userRole);
 
@@ -125,36 +131,15 @@
                     } else if (userRole === 'admin') {
                         window.location.href = REPO_PATH + '/admin-dashboard.html';
                     } else {
-                        // Fallback, aunque el index.html ya redirige
                         window.location.href = REPO_PATH + '/index.html';
                     }
 
                 } catch (error) {
                     errorElement.textContent = error.message || 'Error en el inicio de sesión.';
                     loginBtn.disabled = false;
-                    loginBtn.querySelector('span').textContent = 'Ingresar'; // Restaurar texto
+                    loginBtn.querySelector('span').textContent = i18next.t('loginButton');
                 }
             });
-
-            // Lógica para corregir rutas de imágenes y navegación en la carga de la página
-            const fixLinksAndImages = () => {
-                const linksAndImages = document.querySelectorAll('a[href], img[src]');
-                linksAndImages.forEach(element => {
-                    const attr = element.hasAttribute('href') ? 'href' : 'src';
-                    let value = element.getAttribute(attr);
-                    
-                    if (value && !value.startsWith('http') && value.startsWith('/') && !value.startsWith(REPO_PATH)) {
-                         // Corregir rutas absolutas rotas (ej: /logo-minga.png)
-                        element.setAttribute(attr, REPO_PATH + value);
-                    } else if (value && !value.startsWith('http') && !value.startsWith(REPO_PATH) && (value.includes('.html') || value.includes('.'))) {
-                         // Corregir rutas relativas simples (ej: logo-minga.png)
-                        element.setAttribute(attr, REPO_PATH + '/docs/' + value);
-                    }
-                });
-            };
-            
-            // Ejecutar la corrección de rutas
-            fixLinksAndImages();
         });
     </script>
 </body>

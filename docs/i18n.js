@@ -50,6 +50,7 @@ const resources = {
       
       "benefit6Title": 'Programa Especial: Memphis', 
       "benefit6Text": 'Accede a nuestro programa exclusivo con el Distrito Escolar de Memphis, Tennessee, con prioridad en la colocación.',
+      
       "benefit7Title": 'Viajes y Voluntariado', 
       "benefit7Text": 'Participa en viajes de voluntariado cultural organizados por Minga House Foundation antes de iniciar tu contrato en EE.UU.',
       
@@ -61,7 +62,7 @@ const resources = {
 
 
       // --- TRADUCCIONES DE LOGIN.HTML (NUEVAS CLAVES) ---
-      "loginSubtitle": "Bienvenido(a) de nuevo. Detección automática de rol.", // Añadido para el panel derecho
+      "loginSubtitle": "Bienvenido(a) de nuevo. Detección automática de rol.", 
       "emailLabel": "Correo Electrónico",
       "passwordLabel": "Contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
@@ -71,6 +72,7 @@ const resources = {
       "teacher": "Profesor",
       "school": "Escuela",
       "or": "o",
+
 
       // --- Pasos del Onboarding (Títulos usados en el Dashboard) ---
       "step1Title": "Paso 1: Acepta Términos y Condiciones",
@@ -117,7 +119,7 @@ const resources = {
           <li>Receive their first paycheck (which can take up to 1 month).</li>
         </ul>
         <p class="mb-6">Good financial planning is essential for a successful transition.</p>
-        
+
         <p class="text-right">Glen G. Galindo<br>President, Minga House Foundation</p>
       `,
       "agreementCheckboxLabel": "Al seleccionar esta casilla, confirmo que he leído y acepto los términos y condiciones del Acuerdo de Servicio Minga Match.",
@@ -142,31 +144,31 @@ const resources = {
       "fileEmploymentNote": "La carta debe: Estar en papel oficial (membrete). Tener fecha actual. Indicar tu cargo, materias y niveles. Incluir fechas de empleo completas. Confirmar si es tiempo completo/parcial. Incluir email/teléfono de contacto del firmante. Estar firmada por un administrador.",
       "fileCredentialTitle": "Credential Evaluation (Homologación o FCE)",
       "fileCredentialNote": "Debes evaluar tus títulos académicos para que sean reconocidos en EE.UU. Realízala aquí: <a href='https://spanside.my.salesforce-sites.com/SpantranApplication?Id=f7b09ff4-5732-47b7-a262-2cb1627066d4' target='_blank' class='text-blue-600 hover:underline'>SpanTran Application</a>. ⚠️ No pagues traducciones con la empresa de EE.UU., son muy costosas.",
-      "fileNoteFormat": "Formatos aceptados: PDF, JPG/PNG (5MB máx.). Video debe ser un enlace.",
+      "fileNoteFormat": "Accepted formats: PDF, JPG/PNG (5MB max.). Video must be a link.",
       "chooseFileButton": "Seleccionar Archivo",
       "uploadFileButton": "Subir Archivo",
       "enterLinkButton": "Guardar Enlace",
       "uploadSuccess": "¡Subida exitosa!",
       "linkSuccess": "¡Enlace guardado!",
       "uploadError": "Error al subir archivo. Intenta de nuevo.",
-      "completionMessage": "Debes subir/guardar todos los archivos y enlaces requeridos.",
-      "step4Desc": "Diligencia tu información personal y profesional para que las escuelas puedan conocerte mejor.",
+      "completionMessage": "You must upload/save all required files and links.",
+      "step4Desc": "Fill out your personal and professional information so that schools can get to know you better.",
       "personalInfoSection": "Información Personal y Datos Clave",
       "professionalInfoSection": "Experiencia Profesional y Credenciales",
-      "fullNameLabel": "Nombre Completo (según pasaporte)",
-      "phoneLabel": "Número de Teléfono",
-      "currentCountryLabel": "País de Residencia Actual",
-      "englishLevelLabel": "Nivel de Inglés (ej: B2 Intermediate)",
-      "usaSSNLabel": "¿Tienes número de Seguro Social de EE. UU. (USA SSN)?",
-      "yearsExpLabel": "Años Completos de Experiencia Docente (después de graduación)",
-      "uniNameLabel": "Nombre completo de la Universidad donde te graduaste",
-      "degreeTypeLabel": "Tipo de Título Universitario (Type of Degree)",
-      "fieldOfStudyLabel": "Campo de Estudio Principal (Field of Study)",
-      "currentPositionLabel": "Puesto y nivel de grado actual",
-      "currentTasksLabel": "Tareas y responsabilidades actuales",
-      "totalMonthsCurrentJobLabel": "Total de meses trabajados en el puesto actual",
-      "prevPositionLabel": "Puesto y nivel de grado anterior (si aplica)",
-      "credentialStatusLabel": "¿Tienes tu Credential Evaluation (Homologación)?",
+      "fullNameLabel": "Full Name (as per passport)",
+      "phoneLabel": "Phone Number",
+      "currentCountryLabel": "Current Country of Residence",
+      "englishLevelLabel": "English Level (e.g., B2 Intermediate)",
+      "usaSSNLabel": "Do you have a USA Social Security Number (USA SSN)?",
+      "yearsExpLabel": "Complete Years of Teaching Experience (after graduation)",
+      "uniNameLabel": "Full Name of the University you graduated from",
+      "degreeTypeLabel": "Type of University Degree",
+      "fieldOfStudyLabel": "Main Field of Study",
+      "currentPositionLabel": "Current Position and Grade Level",
+      "currentTasksLabel": "Current Tasks and Responsibilities",
+      "totalMonthsCurrentJobLabel": "Total months worked in the current position",
+      "prevPositionLabel": "Previous Position and Grade Level (if applicable)",
+      "credentialStatusLabel": "Do you have your Credential Evaluation?",
       "saveProfileButton": "Guardar Perfil"
     }
   }
