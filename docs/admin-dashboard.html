@@ -81,17 +81,17 @@
     </section>
 
     <section class="bg-white shadow-lg rounded-xl p-6 border border-slate-200">
-        <h2 class="text-xl font-bold text-slate-800 mb-4">Seguimiento de Candidatos Recientes</h2>
+        <h2 class="text-xl font-bold text-slate-800 mb-4">Seguimiento de Registros</h2>
         
         <div class="mb-6 border-b border-gray-200">
             <nav class="flex space-x-4" id="adminTabs">
-                <button data-target="teachers-section" class="tab-btn active px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600 hover:text-blue-700 transition">Profesores</button>
+                <button data-target="teachers-section" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-blue-600 transition">Profesores</button>
                 <button data-target="schools-section" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-blue-600 transition">Escuelas</button>
             </nav>
         </div>
 
-        <div id="teachers-section" class="tab-content">
-            <div id="teachersTableContainer" class="overflow-x-auto">
+        <div id="teachers-section" class="tab-content hidden">
+            <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr class="bg-gray-50">
@@ -109,7 +109,7 @@
         </div>
 
         <div id="schools-section" class="tab-content hidden">
-            <div id="schoolsTableContainer" class="overflow-x-auto">
+            <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr class="bg-gray-50">
@@ -132,7 +132,6 @@
     // CRÍTICO: Define la ruta base del repositorio
     const REPO_PATH = '/MingaMatch'; 
     
-    // Función auxiliar para redirigir, asegurando la estabilidad de la ruta
     window.redirectTo = function(path) {
         window.location.href = REPO_PATH + path;
     };
@@ -146,10 +145,9 @@
     ];
     
     const mockSchools = [
-        { id: 's1', name: 'High School Central', contact: 'dir@highschool.edu', activeJobs: 3, notes: 'Cliente prioritario. Busca 2 de matemáticas.' },
+        { id: 's1', name: 'Memphis School District', contact: 'hr@memphistn.gov', activeJobs: 12, notes: 'Cliente prioritario. Contacto directo: John Doe.' },
         { id: 's2', name: 'Miami Bilingual Academy', contact: 'hr@miamiba.com', activeJobs: 0, notes: 'Contactar para renovación de convenio.' }
     ];
-
 
     // --- Funciones de Renderizado ---
     
@@ -157,7 +155,7 @@
         if (stage.includes('Aplicación')) return 'status-applied';
         if (stage.includes('Documentos')) return 'status-eval';
         if (stage.includes('Match')) return 'status-match';
-        if (stage.includes('Contratado')) return 'status-hired';
+        if (stage.includes('Contratado') || stage.includes('Visa')) return 'status-hired';
         return '';
     }
 
@@ -197,17 +195,54 @@
     
     function renderPipelineChart() {
         const ctx = document.getElementById('pipelineChart').getContext('2d');
-        // Chart.js data and rendering logic remains the same (omitted for brevity, assume Chart.js is properly called)
-        new Chart(ctx, { /* ... */ });
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Aplicación', 'Documentos', 'Match', 'Entrevista', 'Oferta', 'Contratado'],
+                datasets: [{
+                    label: 'Candidatos en la Etapa',
+                    data: [120, 85, 45, 30, 25, 18],
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.7)', 
+                        'rgba(4, 120, 120, 0.7)', 
+                        'rgba(16, 185, 129, 0.7)', 
+                        'rgba(59, 130, 246, 0.7)', 
+                        'rgba(168, 85, 247, 0.7)', 
+                        'rgba(234, 179, 8, 0.7)' 
+                    ],
+                    borderColor: [
+                        'rgba(245, 158, 11, 1)',
+                        'rgba(4, 120, 120, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(168, 85, 247, 1)',
+                        'rgba(234, 179, 8, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
     }
     
-    // Placeholder para la apertura del modal de notas
     window.openNotesModal = (id, type, name, currentNotes) => {
         alert(`Simulación: Abriendo notas para ${name}. Notas: ${currentNotes}`);
     };
 
 
     // --- Lógica de Inicialización y Eventos ---
+    let tabContents;
+    
     (function guard() {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
@@ -218,7 +253,6 @@
     })();
 
     document.addEventListener('DOMContentLoaded', () => {
-        // CRÍTICO: Corrección de la ruta del logo
         const logo = document.getElementById('logo-img');
         if (logo) {
             logo.src = REPO_PATH + '/logo-minga.png';
@@ -227,36 +261,37 @@
         // Carga de datos y tablas
         renderPipelineTable();
         renderSchoolsTable();
-        renderPipelineChart();
+        renderPipelineChart(); // CRUCIAL para dibujar la gráfica
 
         // Lógica de Pestañas
         const tabBtns = document.querySelectorAll('.tab-btn');
-        tabContents = document.querySelectorAll('.tab-content'); // Necesita ser definida globalmente o redefinida aquí
+        tabContents = document.querySelectorAll('.tab-content');
 
         tabBtns.forEach(button => {
             button.addEventListener('click', () => {
                 const targetId = button.getAttribute('data-target');
 
                 tabContents.forEach(content => content.classList.add('hidden'));
-                tabBtns.forEach(btn => btn.classList.remove('active', 'border-blue-600', 'text-blue-600'));
-                tabBtns.forEach(btn => btn.classList.add('text-gray-500'));
+                tabBtns.forEach(btn => {
+                    btn.classList.remove('active', 'border-b-2', 'border-blue-600', 'text-blue-600');
+                    btn.classList.add('text-gray-500');
+                });
 
                 document.getElementById(targetId).classList.remove('hidden');
-                button.classList.add('active', 'border-blue-600', 'text-blue-600');
+                button.classList.add('active', 'border-b-2', 'border-blue-600', 'text-blue-600');
                 button.classList.remove('text-gray-500');
             });
         });
         
-        // Activar la primera pestaña al cargar
-        document.querySelector('.tab-btn[data-target="teachers-section"]').classList.add('active', 'border-blue-600', 'text-blue-600');
+        // Activar la primera pestaña al cargar (Profesores)
+        document.querySelector('.tab-btn[data-target="teachers-section"]').click();
         
         // Lógica de Logout
         document.getElementById('logout').addEventListener('click', () => { 
             localStorage.clear(); 
-            window.location.href = REPO_PATH + '/index.html'; // Redirigir al inicio
+            window.location.href = REPO_PATH + '/index.html';
         });
 
-         // Si tienes i18n cargado, asegura la traducción
         if (window.updateContent) {
             window.updateContent();
         }

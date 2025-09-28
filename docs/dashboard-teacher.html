@@ -12,9 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Estilo para enlaces bloqueados */
-        .step-link.pointer-events-none {
-            cursor: not-allowed;
+        /* Estilo para enlaces desbloqueados (quitamos el pointer-events-none) */
+        .step-link.disabled {
             color: #94a3b8 !important; /* slate-400 */
         }
     </style>
@@ -77,6 +76,7 @@
         };
 
         const stepsData = [
+            // Nota: Se ha ajustado el orden para que Paso 0 (documentos) aparezca primero
             { key: 'documentsPrepared', title: 'step2Title', desc: 'Guía de traductores y checklist.', href: 'onboarding-step2.html' }, 
             { key: 'agreementAccepted', title: 'step1Title', desc: 'Acuerdo de Servicio y Costos Estimados.', href: 'onboarding-step1.html' },
             { key: 'filesUploaded', title: 'step3Title', desc: 'Sube foto, video, cartas laborales y Credential Evaluation.', href: 'onboarding-step3.html' },
@@ -85,30 +85,23 @@
 
         function renderSteps(status) {
             const stepsContainer = document.getElementById('steps-container');
-            let isPreviousStepCompleted = true; 
+            
+            // NOTA: isPreviousStepCompleted siempre será TRUE para este dashboard
             
             stepsContainer.innerHTML = stepsData.map(step => {
                 const isCompleted = status[step.key];
-                const isBlocked = !isPreviousStepCompleted && !isCompleted;
                 
                 // Determinación de Claves y Clases
-                let statusKey = isBlocked ? 'statusBlocked' : (isCompleted ? 'statusCompleted' : 'statusPending');
+                let statusKey = isCompleted ? 'statusCompleted' : 'statusPending';
                 let linkKey = isCompleted ? 'statusView' : 'statusStart'; 
                 
                 let cardClasses = 'p-4 border rounded-lg shadow-sm';
-                let statusColor = isBlocked ? 'text-slate-400' : (isCompleted ? 'text-green-600' : 'text-red-500');
-                let linkClasses = isBlocked ? 'pointer-events-none text-slate-400' : 'text-blue-600 hover:underline';
+                let statusColor = isCompleted ? 'text-green-600' : 'text-red-500';
                 
                 if (isCompleted) {
                     cardClasses += ' bg-green-50 border-green-400';
-                } else if (isBlocked) {
-                    cardClasses += ' bg-gray-100 border-gray-300 opacity-70';
                 } else {
                     cardClasses += ' bg-white border-blue-200';
-                }
-
-                if (!isCompleted) {
-                    isPreviousStepCompleted = false; 
                 }
 
                 return `
@@ -120,7 +113,7 @@
                             </div>
                             <div class="flex flex-col items-end">
                                 <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${statusColor}" data-i18n="${statusKey}"></span>
-                                <a href="${isBlocked ? '#' : REPO_PATH + '/' + step.href}" class="mt-2 text-sm font-medium ${linkClasses}">
+                                <a href="${REPO_PATH + '/' + step.href}" class="mt-2 text-sm font-medium text-blue-600 hover:underline">
                                     <span data-i18n="${linkKey}"></span> &rarr;
                                 </a>
                             </div>
@@ -134,12 +127,7 @@
 
         async function loadDashboard() {
             let status = {};
-            let fullName = 'Profesor';
-
-            // SIMULACIÓN: Carga de Perfil (Para obtener el status y el nombre)
-            // En un entorno real: const res = await fetch('/api/teachers/my-profile', { headers: authHeader() });
-            
-            // Estado simulado para la prueba
+            // El estado simulado aquí muestra 1 paso completado para fines visuales.
             status = {
                 documentsPrepared: true, 
                 agreementAccepted: false,
